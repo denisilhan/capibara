@@ -20,14 +20,15 @@ Search by name, description, provider, category, or tag. Narrow games by solo/gr
 
 Save entries locally without an account. Light and dark themes follow you between pages. Saved entries stay in that browser and disappear if its site data is cleared.
 
-<details>
-<summary>games, dark mode, and mobile</summary>
+## dark mode
+
 
 ![browser games in dark mode](docs/screenshots/games-dark.png)
 
+### mobile
+
 <img src="docs/screenshots/games-mobile.png" width="330" alt="browser games on a narrow mobile viewport" />
 
-</details>
 
 ## run locally
 
