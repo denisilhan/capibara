@@ -1,3 +1,4 @@
+import { isBrowserExtension } from "./catalog";
 import type { Api, Resource } from "../types/index";
 export function pricingOf(item: Resource) {
   return item.kind === "api" ? item.pricingType : item.pricing;
@@ -59,7 +60,9 @@ export function getMetrics(items: Resource[]) {
     total: items.length,
     apis: apiItems.length,
     bots: items.filter((a) => a.kind === "bot").length,
-    tools: items.filter((a) => a.kind === "tool").length,
+    tools: items.filter((a) => a.kind === "tool" && !isBrowserExtension(a)).length,
+    extensions: items.filter(isBrowserExtension).length,
+    web: items.filter((a) => a.kind === "web").length,
     weird: items.filter((a) => a.kind === "weird").length,
     categories: [...new Set(items.flatMap((a) => a.categories))].sort(),
     freeTier,

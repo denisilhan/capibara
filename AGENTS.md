@@ -1,29 +1,10 @@
-# capybara agent rules
-
-## execution
-- inspect existing code before editing.
-- never re-scaffold or reinstall the project unless explicitly requested.
-- make the smallest safe change that solves the current task.
-- prefer targeted edits over whole-file rewrites.
-- do not modify unrelated files.
-- do not add dependencies unless clearly necessary.
-- preserve existing routes, data, filters, and working behavior.
-
-## efficiency
-- inspect only the files needed for the task.
-- avoid repeated terminal commands.
-- if the same error persists after 2 meaningful attempts, stop and explain the blocker.
-- use lightweight checks first; run a full production build only when useful or before a milestone.
-
-## design
-- brand and product ui copy should be lowercase where practical.
-- visual direction: dense developer infrastruc# capybara agent rules
+# capibara agent rules
 
 ## project identity
-- product name is always `capybara`.
+- product name is always `capibara`.
 - use lowercase ui copy wherever practical.
 - standard technical acronyms such as API, REST, OAuth, JSON, SDK may keep conventional casing.
-- capybara is a discovery directory for:
+- capibara is a discovery directory for:
   - apis
   - discord bots
   - developer tools
@@ -135,7 +116,7 @@
 ---
 
 ## real-world product principle
-- capybara should feel like a real directory used by developers.
+- capibara should feel like a real directory used by developers.
 - prioritize useful structured metadata over decorative visual elements.
 - prefer:
   - provider
@@ -181,14 +162,14 @@
 - provider facts should come from official documentation or official provider pages whenever possible.
 - do not copy provider marketing text verbatim.
 - write concise original summaries.
-- clearly distinguish editorial capybara metadata from provider facts.
-- clearly distinguish actual capybara analytics from seeded demo values.
+- clearly distinguish editorial capibara metadata from provider facts.
+- clearly distinguish actual capibara analytics from seeded demo values.
 - if real analytics do not exist yet, do not pretend they do.
 
 ---
 
 ## editorial scores
-- usefulness, weirdness, beginner-friendliness, or similar scores are capybara editorial ratings.
+- usefulness, weirdness, beginner-friendliness, or similar scores are capibara editorial ratings.
 - they must never be presented as external measurements.
 - do not make them the dominant visual focus.
 - if editorial scores make the product feel artificial, reduce their prominence or move them mainly to detail pages.
@@ -395,26 +376,14 @@ rules:
 - do not add provider accounts unless requested.
 - do not add real-time analytics infrastructure unless requested.
 - do not proxy third-party APIs unless requested.
-- finish the discovery experience before adding platform complexity.ture ui, influenced by railway / val town.
-- base: #0b0d11
-- surfaces: #0e1117
-- borders: #1b212d
-- accent: #d97706
-- prefer dense rows, tables, separators, and compact metadata.
-- numerical information should be visually prominent.
-- aim for 6–8 directory entries visible on a desktop viewport.
+- finish the discovery experience before adding platform complexity.
 
-## forbidden ui patterns
-- no giant hero sections.
-- no gradients or glowing decorative blobs.
-- no glassmorphism.
-- no oversized rounded cards.
-- no decorative square icon boxes beside list items.
-- no duplicate action buttons such as "view docs" + "inspect".
-- no excessive vertical whitespace.
-- no generic ai-generated saas dashboard styling.
+<!-- BEGIN:nextjs-agent-rules -->
 
-## data integrity
-- never invent provider pricing, limits, usage counts, uptime, latency, or invite urls.
-- unknown provider data must remain null / unknown.
-- clearly distinguish capybara metrics from provider metrics.
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

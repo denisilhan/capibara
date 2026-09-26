@@ -1,5 +1,6 @@
+import { verifiedInviteUrl } from "@/lib/links";
 import type { Resource, Api, DiscordBot } from "@/types";
-import { ExternalLink, StatsStrip } from "./ui";
+import { ExternalLink } from "./ui";
 
 export function SourcePanel({ resource }: { resource: Resource }) {
   return (
@@ -23,22 +24,26 @@ export function SourcePanel({ resource }: { resource: Resource }) {
     </section>
   );
 }
-export function ResourceMetrics({ resource }: { resource: Api | DiscordBot }) {
-  return (
-    <StatsStrip
-      items={[
-        { value: resource.usefulnessScore.toFixed(1), label: "usefulness¹" },
-        { value: resource.weirdnessScore.toFixed(1), label: "weirdness¹" },
-        ...(resource.kind === "api"
-          ? [
-              {
-                value: resource.beginnerScore.toFixed(1),
-                label: "beginner score¹",
-              },
-            ]
-          : []),
+export function ResourceBasics({ resource }: { resource: Api | DiscordBot }) {
+  const facts = resource.kind === "api"
+    ? [
+        { label: "access", value: resource.authType === "none" ? "public access available" : resource.authType ?? "check provider docs" },
+        { label: "request example", value: resource.curlSample ? "included below" : "see official quickstart" },
+      ]
+    : [
+        { label: "use it for", value: resource.categories.join(" / ") },
+        { label: "setup", value: verifiedInviteUrl(resource) ? "official invite available" : resource.tags.includes("self-hosted") ? "self-hosted" : "via provider website" },
+      ];
+  return <dl className="resource-basics">{facts.map(({ label, value }) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>;
+}
 
-      ]}
-    />
-  );
+export function ResourceOverview({ resource }: { resource: Resource }) {
+  const guidance = resource.overview ?? (resource.kind === "api"
+    ? `${resource.buildIdeas[0] ? `a starting idea: ${resource.buildIdeas[0]}. ` : ""}open the documentation for the request format and setup steps.`
+    : resource.kind === "bot"
+      ? "choose the commands that match your server’s needs, then follow the provider’s setup guide. a server manager may need to install it first."
+      : resource.kind === "tool"
+        ? `use this when you need ${resource.toolType} in your workflow. it is available for ${resource.platform.join(", ")}. start with the official website or documentation for setup instructions.`
+        : "this is a website you can explore directly. open the official site to try the experience; account and pricing details below are only shown when known.");
+  return <p className="overview-guidance">{guidance}</p>;
 }

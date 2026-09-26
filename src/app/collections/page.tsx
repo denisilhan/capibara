@@ -11,8 +11,7 @@ export default function CollectionsPage() {
         <div>
           <h1>collections.</h1>
           <p>
-            small collections for big ideas. hand-picked criteria,
-            always-current local counts.
+            find a starting point for your next project, server, or afternoon online.
           </p>
         </div>
         <span className="eyebrow">/ collections</span>
@@ -29,7 +28,7 @@ export default function CollectionsPage() {
             <p>{c.description}</p>
             <span>
               {resources.filter((r) => matchesCollection(r, c)).length}{" "}
-              {c.resourceType === "api"
+              {c.slug === "browser-extensions" ? "extensions" : c.resourceType === "api"
                 ? "apis"
                 : c.resourceType === "bot"
                   ? "bots"

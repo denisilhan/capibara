@@ -14,8 +14,8 @@ export default async function BotsPage({
         <div>
           <h1>discord bots.</h1>
           <p>
-            moderation, music, and the occasional pokémon. discover discord
-            bots.
+            find a bot for games, roleplay, chat, events, or server management.
+            open an entry to see what it does and how to add it.
           </p>
         </div>
         <span className="eyebrow">/ bots</span>

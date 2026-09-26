@@ -8,13 +8,16 @@ export function parseFilters(
   const sort = one("sort");
   return {
     query: one("q") ?? "",
+    players: one("players") ?? "all",
+    playStyle: one("playStyle") ?? "all",
+    platform: one("platform") ?? "all",
     category: one("category") ?? "all",
     pricing: one("pricing") ?? "all",
     auth: one("auth") ?? "all",
     openSource: one("openSource") ?? "all",
     sort:
       sort &&
-      ["trending", "useful", "weird", "beginner", "price"].includes(sort)
+      ["trending", "useful", "weird", "beginner", "price", "weirdness-desc", "weirdness-asc"].includes(sort)
         ? (sort as SortType)
         : "trending",
   };

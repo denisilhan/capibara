@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { catalogSection } from "@/lib/catalog";
 import { resources } from "@/data";
 import type { Resource } from "@/types";
 import { randomResource } from "@/lib/filtering";
@@ -10,28 +11,28 @@ import { ExternalLink } from "./ui";
 import { BotActions } from "./rows";
 
 export function RandomDiscovery({ initial }: { initial: Resource }) {
-  const [kind, setKind] = useState<"all" | "api" | "bot" | "tool" | "weird">("all");
+  const [kind, setKind] = useState<"all" | "api" | "bot" | "tool" | "extension" | "weird" | "web">("all");
   const [item, setItem] = useState(initial);
-  const pool = resources.filter((r) => kind === "all" || r.kind === kind);
+  const pool = resources.filter((r) => kind === "all" || catalogSection(r) === kind);
   function selectKind(next: typeof kind) {
     setKind(next);
-    setItem(randomResource(resources.filter((r) => next === "all" || r.kind === next), item.id) ?? item);
+    setItem(randomResource(resources.filter((r) => next === "all" || catalogSection(r) === next), item.id) ?? item);
   }
   return (
     <>
       <div className="random-controls">
-        {(["all", "api", "bot", "tool", "weird"] as const).map((k) => (
+        {(["all", "api", "bot", "tool", "extension", "weird", "web"] as const).map((k) => (
           <button className="button subtle" key={k} aria-pressed={kind === k} onClick={() => selectKind(k)}>
-            {k === "all" ? "all services" : k === "api" ? "apis" : k === "bot" ? "bots" : k === "tool" ? "tools" : "weird web"}
+            {k === "all" ? "all services" : k === "api" ? "apis" : k === "bot" ? "bots" : k === "tool" ? "tools" : k === "extension" ? "extensions" : k === "web" ? "sites & games" : "weird web"}
           </button>
         ))}
       </div>
       <div className="random-stage">
         <article className="random-card" aria-live="polite" aria-atomic="true">
-          <p className="eyebrow">/ {item.kind}</p>
+          <p className="eyebrow">/ {catalogSection(item)}</p>
           <h2>{item.name}</h2>
           <p>{item.description}</p>
-          <p className="random-meta">{item.categories.join(" · ")} · {pricingOf(item) ?? "pricing not listed"}</p>
+          <p className="random-meta">{item.categories.join(" · ")}{pricingOf(item) && ` · ${pricingOf(item)}`}</p>
           <div className="detail-actions">
             <Link className="text-link" href={resourcePath(item)}>details →</Link>
             {item.kind === "api" ? <ExternalLink href={item.docsUrl}>official docs</ExternalLink> : item.kind === "bot" ? <BotActions bot={item} /> : <ExternalLink href={item.kind === "tool" ? item.docsUrl ?? item.officialUrl : item.officialUrl}>official site</ExternalLink>}

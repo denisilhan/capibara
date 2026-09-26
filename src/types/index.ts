@@ -1,6 +1,6 @@
 export type PricingType = "free" | "freemium" | "paid";
 export type AuthType = "none" | "api-key" | "oauth";
-export type SortType = "trending" | "useful" | "weird" | "beginner" | "price";
+export type SortType = "trending" | "useful" | "weird" | "beginner" | "price" | "weirdness-desc" | "weirdness-asc";
 export interface SourceNote {
   url: string;
   label: string;
@@ -11,6 +11,8 @@ export interface CatalogBase {
   slug: string;
   name: string;
   description: string;
+  /** Plain-language editorial guidance for using this entry. */
+  overview?: string;
   categories: string[];
   tags: string[];
   sourceVerifiedAt: string | null;
@@ -66,12 +68,23 @@ export interface DeveloperTool extends CatalogBase {
   installCommand: string | null;
 }
 export interface WeirdWeb extends CatalogBase {
+  /** capibara editorial judgment, not a provider metric. Omit when unreviewed. */
+  weirdness?: { level: 1 | 2 | 3; reason: string };
   kind: "weird";
   officialUrl: string;
   pricing: PricingType | null;
   loginRequired: boolean | null;
 }
-export type Resource = Api | DiscordBot | DeveloperTool | WeirdWeb;
+export interface WebSite extends CatalogBase {
+  kind: "web";
+  section: "games" | "useful";
+  officialUrl: string;
+  pricing: PricingType | null;
+  loginRequired: boolean | null;
+  players?: ("solo" | "group")[];
+  playStyles?: ("daily" | "time attack" | "competitive" | "casual")[];
+}
+export type Resource = Api | DiscordBot | DeveloperTool | WeirdWeb | WebSite;
 export interface CollectionDefinition {
   id: string;
   slug: string;

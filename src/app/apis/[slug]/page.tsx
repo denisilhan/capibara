@@ -1,3 +1,4 @@
+import { SaveButton } from "@/components/save-button";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { apis } from "@/data/apis";
@@ -8,9 +9,9 @@ import {
   Tag,
   StatusIndicator,
 } from "@/components/ui";
-import { ResourceMetrics, SourcePanel } from "@/components/details";
+import { ResourceBasics, SourcePanel, ResourceOverview } from "@/components/details";
 import { CopyButton } from "@/components/copy-button";
-import { ResourceRows, MetricNote } from "@/components/rows";
+import { ResourceRows } from "@/components/rows";
 export function generateStaticParams() {
   return apis.map((a) => ({ slug: a.slug }));
 }
@@ -57,21 +58,19 @@ export default async function ApiPage({
         <ExternalLink href={a.officialUrl} className="button">
           official website
         </ExternalLink>
+        <SaveButton id={a.id} />
       </div>
-      <ResourceMetrics resource={a} />
+      <ResourceBasics resource={a} />
       <div className="detail-grid">
         <div>
           <section className="detail-section">
             <h2>overview</h2>
-            <p>
-              {a.description} the links here take you directly to {a.provider}.
-              access and terms are managed by the provider.
-            </p>
+            <ResourceOverview resource={a} />
           </section>
-          <section className="detail-section">
+          {a.pricingType && <section className="detail-section">
             <h2>pricing</h2>
             <p>{a.pricingNote}</p>
-          </section>
+          </section>}
           <section className="detail-section">
             <h2>authentication</h2>
             <p>{a.authNote}</p>
@@ -109,7 +108,7 @@ export default async function ApiPage({
               </div>
             )}
             <p className="note">
-              examples are for you to run. capybara does not call or proxy this
+              examples are for you to run. capibara does not call or proxy this
               API.
             </p>
           </section>
@@ -134,7 +133,7 @@ export default async function ApiPage({
               ))}
             </ul>
             <p className="note">
-              project ideas from capybara, not provider guarantees.
+              project ideas from capibara, not provider guarantees.
             </p>
           </section>
         </div>
@@ -144,12 +143,12 @@ export default async function ApiPage({
               <h2>technical snapshot</h2>
             </div>
             <dl className="fact-list">
-              <div>
+              {a.pricingType && <div>
                 <dt>pricing</dt>
                 <dd>
                   <StatusIndicator value={a.pricingType} />
                 </dd>
-              </div>
+              </div>}
               <div>
                 <dt>paid starting price</dt>
                 <dd>
@@ -198,7 +197,6 @@ export default async function ApiPage({
           </div>
         </section>
       )}
-      <MetricNote />
     </>
   );
 }

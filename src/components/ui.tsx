@@ -72,8 +72,9 @@ export function Tag({ children }: { children: ReactNode }) {
   return <span className="tag">{children}</span>;
 }
 export function StatusIndicator({ value }: { value: string | null }) {
+  if (!value) return null;
   return (
-    <span className={`badge ${value ?? ""}`}>{value ?? "not listed"}</span>
+    <span className={`badge ${value}`}>{value}</span>
   );
 }
 export function ExternalLink({

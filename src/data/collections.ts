@@ -51,7 +51,7 @@ export const collections: CollectionDefinition[] = [
     id: "beginner",
     slug: "beginner-friendly",
     title: "beginner-friendly apis",
-    description: "approachable first requests, selected by capybara.",
+    description: "approachable first requests, selected by capibara.",
     icon: "sprout",
     resourceType: "api",
     rules: { minBeginnerScore: 9 },
@@ -92,4 +92,17 @@ export const collections: CollectionDefinition[] = [
     resourceType: "weird",
     rules: {},
   },
+  {
+  "id": "browser-extensions",
+  "slug": "browser-extensions",
+  "title": "browser extensions",
+  "description": "everyday helpers and geeky browser tools. browser names reflect official listings; follow the project page for installation.",
+  "icon": "code",
+  "resourceType": "tool",
+  "rules": {
+    "categories": [
+      "browser extensions"
+    ]
+  }
+},
 ];

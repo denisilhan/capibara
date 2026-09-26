@@ -15,13 +15,17 @@ export function AppShell({ children }: { children: ReactNode }) {
       </div>
       <footer className="footer">
         <p>
-          capybara is an independent discovery directory. product names and
+          capibara is an independent discovery directory. product names and
           trademarks belong to their respective owners.
           <br />
           data may change. check official provider documentation before
           production use.
         </p>
-        <Link href="/collections">made for curious developers. ↗</Link>
+        <nav className="footer-links" aria-label="directory feedback">
+          <Link href="/saved">saved entries</Link>
+          <a href="https://github.com/denisilhan/capybara/issues/new?title=Incorrect%20information" target="_blank" rel="noopener noreferrer">report an issue ↗</a>
+          <a href="https://github.com/denisilhan/capybara/issues/new?title=Suggest%20a%20resource" target="_blank" rel="noopener noreferrer">suggest a resource ↗</a>
+        </nav>
       </footer>
     </>
   );

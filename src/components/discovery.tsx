@@ -1,46 +1,47 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { ListFilter, Zap, FlaskConical, Sprout } from "lucide-react";
-import { apis } from "@/data/apis";
-import { sortResources } from "@/lib/filtering";
-import type { SortType } from "@/types";
+
+import { discoveryItems } from "@/data/discovery";
+import { catalogSection } from "@/lib/catalog";
 import { ResourceRows } from "./rows";
 export function Discovery() {
-  const [sort, setSort] = useState<SortType>("trending");
+  const [section, setSection] = useState("all");
   const tabs = [
-    { sort: "trending", label: "featured", icon: ListFilter },
-    { sort: "useful", label: "actually useful", icon: Zap },
-    { sort: "weird", label: "weirdest", icon: FlaskConical },
-    { sort: "beginner", label: "beginner friendly", icon: Sprout },
-  ] as const;
+    { value: "all", label: "a bit of everything", href: "/collections" },
+    { value: "api", label: "apis", href: "/apis" },
+    { value: "bot", label: "bots", href: "/bots" },
+    { value: "extension", label: "extensions", href: "/extensions" },
+    { value: "tool", label: "tools", href: "/tools" },
+    { value: "web", label: "sites & games", href: "/web" },
+    { value: "weird", label: "weird web", href: "/web?section=weird" },
+  ];
+  const selected = tabs.find((tab) => tab.value === section)!;
+  const items = discoveryItems.filter((item) => section === "all" || catalogSection(item) === section);
   return (
     <section>
       <div className="section-heading">
         <h2>
-          <CompassMark /> worth a look
+          <CompassMark /> a few places to start
         </h2>
-        <Link href="/apis" className="text-link">
-          all apis →
+        <Link href={selected.href} className="text-link">
+          {section === "all" ? "browse collections" : `all ${selected.label}`} →
         </Link>
       </div>
-      <div className="directory-table">
-        <div className="tabs" aria-label="discovery order">
-          {tabs.map(({ sort: mode, label, icon: Icon }) => (
+      <p className="list-help">open a name for details; ↗ goes to the official site.</p>
+      <div className="directory-table mixed-directory">
+        <div className="tabs" aria-label="discovery sections">
+          {tabs.map(({ value: mode, label }) => (
             <button
               key={mode}
-              aria-pressed={sort === mode}
-              onClick={() => setSort(mode)}
+              aria-pressed={section === mode}
+              onClick={() => setSection(mode)}
             >
-              <Icon size={13} />
               {label}
             </button>
           ))}
         </div>
-        <div className="api-table-head" aria-hidden="true">
-          <span>service / what it does</span><span>auth</span><span>pricing</span><span>free tier</span><span>docs</span>
-        </div>
-        <ResourceRows items={sortResources(apis, sort).slice(0, 8)} />
+        <ResourceRows items={items} showKind />
         <div
           className="panel-heading"
           style={{
@@ -49,8 +50,8 @@ export function Discovery() {
             borderBottom: 0,
           }}
         >
-          <Link className="text-link" href={`/apis?sort=${sort}`}>
-            explore all {apis.length} apis →
+          <Link className="text-link" href={selected.href}>
+            {section === "all" ? "explore collections" : `explore all ${selected.label}`} →
           </Link>
         </div>
       </div>

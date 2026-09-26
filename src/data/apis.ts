@@ -52,6 +52,177 @@ function api(seed: Seed): Api {
   };
 }
 const seeds: Seed[] = [
+{
+  "slug": "frankfurter",
+  "name": "frankfurter",
+  "provider": "frankfurter",
+  "description": "daily and historical currency exchange rates from central banks and official sources.",
+  "categories": [
+    "finance",
+    "data"
+  ],
+  "docsUrl": "https://frankfurter.dev/",
+  "officialUrl": "https://frankfurter.dev/",
+  "buildIdeas": [
+    "compare historical exchange rates"
+  ],
+  "sourceVerifiedAt": "2026-09-27",
+  "authType": "none",
+  "pricingType": "free",
+  "endpointSample": "https://api.frankfurter.dev/v2/rates",
+  "sources": [
+    {
+      "url": "https://frankfurter.dev/",
+      "label": "official documentation / creator page",
+      "facts": "purpose and documented access reviewed; unrecorded costs and quotas remain unknown."
+    }
+  ],
+  "freeTier": true,
+  "pricingNote": "the provider documents free access. follow its terms and attribution requirements.",
+  "authNote": "the documented public requests do not require an API key.",
+  "curlSample": "curl \"https://api.frankfurter.dev/v2/rates\""
+},
+{
+  "slug": "gbif",
+  "name": "GBIF",
+  "provider": "global biodiversity information facility",
+  "description": "search species names, biodiversity observations, datasets, and occurrence maps.",
+  "categories": [
+    "science",
+    "animals",
+    "data"
+  ],
+  "docsUrl": "https://techdocs.gbif.org/en/openapi/",
+  "officialUrl": "https://techdocs.gbif.org/en/openapi/",
+  "buildIdeas": [
+    "build a species observation explorer"
+  ],
+  "sourceVerifiedAt": "2026-09-27",
+  "authType": null,
+  "pricingType": null,
+  "endpointSample": null,
+  "sources": [
+    {
+      "url": "https://techdocs.gbif.org/en/openapi/",
+      "label": "official documentation / creator page",
+      "facts": "purpose and documented access reviewed; unrecorded costs and quotas remain unknown."
+    }
+  ]
+},
+{
+  "slug": "dicebear",
+  "name": "dicebear",
+  "provider": "dicebear",
+  "description": "generate consistent SVG avatars from a style and a seed value.",
+  "categories": [
+    "media",
+    "tools"
+  ],
+  "docsUrl": "https://www.dicebear.com/integrations/http-api/",
+  "officialUrl": "https://www.dicebear.com/integrations/http-api/",
+  "buildIdeas": [
+    "give users reproducible default avatars"
+  ],
+  "sourceVerifiedAt": "2026-09-27",
+  "authType": "none",
+  "pricingType": null,
+  "endpointSample": "https://api.dicebear.com/10.x/pixel-art/svg",
+  "sources": [
+    {
+      "url": "https://www.dicebear.com/integrations/http-api/",
+      "label": "official documentation / creator page",
+      "facts": "purpose and documented access reviewed; unrecorded costs and quotas remain unknown."
+    }
+  ],
+  "authNote": "the documented public requests do not require an API key.",
+  "curlSample": "curl \"https://api.dicebear.com/10.x/pixel-art/svg\"",
+  "overview": "choose an avatar style and seed, then use the generated image URL. check the license of your chosen style before shipping it."
+},
+{
+  "slug": "gamerpower",
+  "name": "gamerpower",
+  "provider": "digiwalls media",
+  "description": "find active game giveaways, beta keys, and in-game loot by platform.",
+  "categories": [
+    "gaming"
+  ],
+  "docsUrl": "https://www.gamerpower.com/api-read",
+  "officialUrl": "https://www.gamerpower.com/api-read",
+  "buildIdeas": [
+    "build a game giveaway notifier"
+  ],
+  "sourceVerifiedAt": "2026-09-27",
+  "authType": "none",
+  "pricingType": "free",
+  "endpointSample": "https://www.gamerpower.com/api/giveaways",
+  "sources": [
+    {
+      "url": "https://www.gamerpower.com/api-read",
+      "label": "official documentation / creator page",
+      "facts": "purpose and documented access reviewed; unrecorded costs and quotas remain unknown."
+    }
+  ],
+  "freeTier": true,
+  "pricingNote": "free access requires attribution to GamerPower. the documentation limits requests to 10 per second.",
+  "authNote": "the documented public requests do not require an API key.",
+  "curlSample": "curl \"https://www.gamerpower.com/api/giveaways\""
+},
+{
+  "slug": "nekos-best",
+  "name": "nekos.best",
+  "provider": "nekos.best",
+  "description": "fetch anime illustrations and reaction GIFs with artist information where available.",
+  "categories": [
+    "media",
+    "gaming"
+  ],
+  "docsUrl": "https://docs.nekos.best/getting-started/introduction",
+  "officialUrl": "https://docs.nekos.best/getting-started/introduction",
+  "buildIdeas": [
+    "add reaction images to a chat bot"
+  ],
+  "sourceVerifiedAt": "2026-09-27",
+  "authType": "none",
+  "pricingType": "free",
+  "endpointSample": null,
+  "sources": [
+    {
+      "url": "https://docs.nekos.best/getting-started/introduction",
+      "label": "official documentation / creator page",
+      "facts": "purpose and documented access reviewed; unrecorded costs and quotas remain unknown."
+    }
+  ],
+  "freeTier": true,
+  "pricingNote": "the provider documents free access. follow its terms and attribution requirements.",
+  "authNote": "the documented public requests do not require an API key."
+},
+{
+  "slug": "disney-api",
+  "name": "disney API",
+  "provider": "disney API community",
+  "description": "look up character information through a community-made REST and GraphQL API.",
+  "categories": [
+    "media"
+  ],
+  "docsUrl": "https://disneyapi.dev/",
+  "officialUrl": "https://disneyapi.dev/",
+  "buildIdeas": [
+    "make a character lookup or trivia companion"
+  ],
+  "sourceVerifiedAt": "2026-09-27",
+  "authType": null,
+  "pricingType": null,
+  "endpointSample": "https://api.disneyapi.dev/character",
+  "sources": [
+    {
+      "url": "https://disneyapi.dev/",
+      "label": "official documentation / creator page",
+      "facts": "purpose and documented access reviewed; unrecorded costs and quotas remain unknown."
+    }
+  ],
+  "curlSample": "curl \"https://api.disneyapi.dev/character\"",
+  "overview": "a fan-built character dataset for small lookup and learning projects. this is not an official Walt Disney Company API."
+},
   {
     slug: "open-meteo",
     name: "open-meteo",
@@ -246,6 +417,16 @@ const seeds: Seed[] = [
     authType: "none",
     authNote:
       "some public read endpoints work without authentication. private data and write operations require a token or an authenticated app; permissions vary.",
+    freeTier: true,
+    freeRequests: "60",
+    requestPeriod: "hour",
+    pricingNote: "public REST reads are available without authentication. the primary limit is 60 requests/hour per IP; authenticated users generally get 5,000/hour. search and secondary limits differ. GitHub account plans are separate.",
+    overview: "start with a public repository and retrieve its description, issues, or latest releases. use that data for a repository explorer or release tracker. private repositories and write operations need suitable authentication.",
+    sourceVerifiedAt: "2026-09-27",
+    sources: [
+      { url: "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api", label: "official rate limits", facts: "public unauthenticated access: 60 requests/hour per IP; standard authenticated user limit: 5,000/hour. secondary and endpoint-specific limits apply." },
+      { url: "https://docs.github.com/en/rest/repos/repos#get-a-repository", label: "repository endpoint", facts: "GET repository metadata is available for public resources without authentication." },
+    ],
     usefulnessScore: 9.7,
     weirdnessScore: 1.2,
     beginnerScore: 7.5,
@@ -594,6 +775,11 @@ const seeds: Seed[] = [
     ],
     "docsUrl": "https://platform.claude.com/docs/en/api/overview",
     "officialUrl": "https://www.anthropic.com/",
+    "authType": "api-key",
+    "authNote": "direct API access requires a Console API key or configured workload identity federation. follow the authentication guide for the headers your setup needs.",
+    "overview": "start with a small text task such as summarizing a document or answering questions about supplied text. create your credentials in Console, follow the Messages quickstart, and check model costs before integrating.",
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [{ "url": "https://platform.claude.com/docs/en/api/overview", "label": "official API overview", "facts": "Console account and API key or workload identity federation required; Messages API and authentication headers reviewed." }],
     "buildIdeas": [
       "prototype a document assistant"
     ]
@@ -868,5 +1054,414 @@ const seeds: Seed[] = [
       "plot local air quality"
     ]
   },
+  {
+    "slug": "open-trivia-db",
+    "name": "open trivia db",
+    "provider": "open trivia database",
+    "description": "get quiz questions with answer choices, categories, and difficulty levels for a trivia game.",
+    "overview": "use this to build a quiz for friends or a Discord trivia command. request a set of questions, show the choices, and check the selected answer. the provider documents a five-second gap between requests per IP.",
+    "categories": [
+      "gaming",
+      "education"
+    ],
+    "tags": [
+      "trivia",
+      "quiz"
+    ],
+    "docsUrl": "https://opentdb.com/api_config.php",
+    "officialUrl": "https://opentdb.com/",
+    "pricingType": "free",
+    "freeTier": true,
+    "authType": "none",
+    "authNote": "the official API does not require an API key.",
+    "pricingNote": "the JSON API is free to use. data is licensed under CC BY-SA 4.0; the provider documents request limits.",
+    "buildIdeas": [
+      "make a multiplayer trivia round"
+    ],
+    "sources": [
+      {
+        "url": "https://opentdb.com/api_config.php",
+        "label": "official API documentation",
+        "facts": "free JSON API, no API key, quiz configuration, licensing, and per-IP request interval."
+      }
+    ],
+    "sourceVerifiedAt": "2026-09-26"
+  },
+  {
+    "slug": "open5e",
+    "name": "open5e",
+    "provider": "open5e",
+    "description": "look up tabletop RPG creatures, spells, equipment, and rules from the Open5e catalog.",
+    "overview": "a useful starting point for a tabletop companion app. search for a creature or spell and show the returned information beside your campaign notes. use API v2 and check each source document before reusing its content.",
+    "categories": [
+      "gaming"
+    ],
+    "tags": [
+      "rpg",
+      "tabletop",
+      "dnd"
+    ],
+    "docsUrl": "https://open5e.com/api-docs",
+    "officialUrl": "https://open5e.com/",
+    "endpointSample": "https://api.open5e.com/v2/search/?query=goblin",
+    "buildIdeas": [
+      "build a searchable tabletop spellbook"
+    ],
+    "sources": [
+      {
+        "url": "https://open5e.com/api-docs",
+        "label": "official API overview",
+        "facts": "v2 resources, search, filtering, pagination, and the documented goblin search endpoint."
+      }
+    ],
+    "sourceVerifiedAt": "2026-09-26"
+  },
+  {
+    "slug": "tvmaze",
+    "name": "tvmaze",
+    "provider": "tvmaze",
+    "description": "find television shows, episodes, cast details, and schedules for a watchlist or TV guide.",
+    "overview": "search for a show, then use its ID to fetch episodes or cast information. this fits a personal watchlist or a page showing upcoming episodes. the public API is separate from the paid user-level API.",
+    "categories": [
+      "media"
+    ],
+    "tags": [
+      "television",
+      "episodes"
+    ],
+    "docsUrl": "https://www.tvmaze.com/api",
+    "officialUrl": "https://www.tvmaze.com/",
+    "pricingType": "freemium",
+    "freeTier": true,
+    "pricingNote": "a free public API is documented. a separate user-level API is available to premium members; prices are not recorded.",
+    "buildIdeas": [
+      "create a TV episode watchlist"
+    ],
+    "sources": [
+      {
+        "url": "https://www.tvmaze.com/api",
+        "label": "official API documentation",
+        "facts": "show search, episode and cast endpoints; free public API and separate premium user API."
+      }
+    ],
+    "sourceVerifiedAt": "2026-09-26"
+  },
+  {
+    "slug": "datamuse",
+    "name": "datamuse",
+    "provider": "datamuse",
+    "description": "find related words, rhymes, spelling matches, and autocomplete suggestions.",
+    "overview": "use this for a word game, a rhyme helper, or search suggestions. describe the kind of word you need with query parameters. the provider has announced an API-key requirement beginning January 1, 2027.",
+    "categories": [
+      "utilities",
+      "data"
+    ],
+    "tags": [
+      "words",
+      "language",
+      "autocomplete"
+    ],
+    "docsUrl": "https://www.datamuse.com/api/",
+    "officialUrl": "https://www.datamuse.com/",
+    "authType": "none",
+    "authNote": "no token is required at the review date. the provider announces that API keys will be required from January 1, 2027.",
+    "endpointSample": "https://api.datamuse.com/words?ml=ringing+in+the+ears",
+    "buildIdeas": [
+      "make a word-finding helper"
+    ],
+    "sources": [
+      {
+        "url": "https://www.datamuse.com/api/",
+        "label": "official API documentation",
+        "facts": "word queries and autocomplete; current token-free access and announced January 2027 authentication change."
+      }
+    ],
+    "sourceVerifiedAt": "2026-09-26"
+  },
+  {
+  "slug": "chuck-norris",
+  "name": "chuck norris jokes",
+  "description": "retrieve searchable and categorized satirical jokes.",
+  "categories": [
+    "humor",
+    "utilities"
+  ],
+  "tags": [
+    "REST"
+  ],
+  "sourceVerifiedAt": "2026-09-26",
+  "sources": [
+    {
+      "url": "https://api.chucknorris.io/",
+      "label": "official documentation / product page",
+      "facts": "product purpose and features reviewed; unrecorded pricing, quotas, and permissions remain unknown."
+    }
+  ],
+  "provider": "chucknorris.io",
+  "docsUrl": "https://api.chucknorris.io/",
+  "officialUrl": "https://api.chucknorris.io/",
+  "buildIdeas": [
+    "build a random-joke command for a chat bot."
+  ],
+  "overview": "build a random-joke command for a chat bot. check the linked documentation for the available datasets and usage requirements.",
+  "pricingType": "free",
+  "freeTier": true,
+  "pricingNote": "the official provider describes this API as free."
+},
+  {
+  "slug": "rick-and-morty",
+  "name": "rick and morty API",
+  "description": "query characters, locations, and episodes through REST or GraphQL.",
+  "categories": [
+    "media",
+    "gaming"
+  ],
+  "tags": [
+    "REST"
+  ],
+  "sourceVerifiedAt": "2026-09-26",
+  "sources": [
+    {
+      "url": "https://rickandmortyapi.com/documentation",
+      "label": "official documentation / product page",
+      "facts": "product purpose and features reviewed; unrecorded pricing, quotas, and permissions remain unknown."
+    }
+  ],
+  "provider": "rick and morty API",
+  "docsUrl": "https://rickandmortyapi.com/documentation",
+  "officialUrl": "https://rickandmortyapi.com/documentation",
+  "buildIdeas": [
+    "build a character explorer with episode links."
+  ],
+  "overview": "build a character explorer with episode links. check the linked documentation for the available datasets and usage requirements."
+},
+  {
+  "slug": "dnd5e",
+  "name": "d&d 5e API",
+  "description": "look up structured D&D 5th edition reference data for game tools.",
+  "categories": [
+    "gaming"
+  ],
+  "tags": [
+    "REST"
+  ],
+  "sourceVerifiedAt": "2026-09-26",
+  "sources": [
+    {
+      "url": "https://www.dnd5eapi.co/",
+      "label": "official documentation / product page",
+      "facts": "product purpose and features reviewed; unrecorded pricing, quotas, and permissions remain unknown."
+    }
+  ],
+  "provider": "5e-bits",
+  "docsUrl": "https://www.dnd5eapi.co/",
+  "officialUrl": "https://www.dnd5eapi.co/",
+  "buildIdeas": [
+    "build a reference helper for tabletop sessions."
+  ],
+  "overview": "build a reference helper for tabletop sessions. check the linked documentation for the available datasets and usage requirements."
+},
+  {
+  "slug": "potter-db",
+  "name": "potter db",
+  "description": "query characters, books, movies, spells, and potions from a fan-maintained database.",
+  "categories": [
+    "books",
+    "media"
+  ],
+  "tags": [
+    "REST"
+  ],
+  "sourceVerifiedAt": "2026-09-26",
+  "sources": [
+    {
+      "url": "https://docs.potterdb.com/",
+      "label": "official documentation / product page",
+      "facts": "product purpose and features reviewed; unrecorded pricing, quotas, and permissions remain unknown."
+    }
+  ],
+  "provider": "potter db",
+  "docsUrl": "https://docs.potterdb.com/",
+  "officialUrl": "https://docs.potterdb.com/",
+  "buildIdeas": [
+    "build a spell browser or book companion."
+  ],
+  "overview": "build a spell browser or book companion. check the linked documentation for the available datasets and usage requirements."
+},
+  {
+  "slug": "themealdb",
+  "name": "themealdb",
+  "description": "search recipes, ingredients, and meal categories.",
+  "categories": [
+    "food"
+  ],
+  "tags": [
+    "REST"
+  ],
+  "sourceVerifiedAt": "2026-09-26",
+  "sources": [
+    {
+      "url": "https://www.themealdb.com/api.php",
+      "label": "official documentation / product page",
+      "facts": "product purpose and features reviewed; unrecorded pricing, quotas, and permissions remain unknown."
+    }
+  ],
+  "provider": "themealdb",
+  "docsUrl": "https://www.themealdb.com/api.php",
+  "officialUrl": "https://www.themealdb.com/api.php",
+  "buildIdeas": [
+    "build a recipe finder with ingredient search."
+  ],
+  "overview": "build a recipe finder with ingredient search. check the linked documentation for the available datasets and usage requirements.",
+  "authType": "api-key",
+  "authNote": "a test key is available for development; production app-store use requires the provider's paid access.",
+  "pricingType": "freemium",
+  "freeTier": true,
+  "pricingNote": "test access for development or education; public app-store releases require paid provider access."
+},
+  {
+  "slug": "thecocktaildb",
+  "name": "thecocktaildb",
+  "description": "search drink recipes and their ingredients.",
+  "categories": [
+    "food"
+  ],
+  "tags": [
+    "REST"
+  ],
+  "sourceVerifiedAt": "2026-09-26",
+  "sources": [
+    {
+      "url": "https://www.thecocktaildb.com/api.php",
+      "label": "official documentation / product page",
+      "facts": "product purpose and features reviewed; unrecorded pricing, quotas, and permissions remain unknown."
+    }
+  ],
+  "provider": "thecocktaildb",
+  "docsUrl": "https://www.thecocktaildb.com/api.php",
+  "officialUrl": "https://www.thecocktaildb.com/api.php",
+  "buildIdeas": [
+    "build a searchable drink recipe reference."
+  ],
+  "overview": "build a searchable drink recipe reference. check the linked documentation for the available datasets and usage requirements.",
+  "authType": "api-key",
+  "authNote": "a test key is available for development; production app-store use requires the provider's paid access.",
+  "pricingType": "freemium",
+  "freeTier": true,
+  "pricingNote": "test access for development or education; public app-store releases require paid provider access."
+},
+  {
+  "slug": "internet-archive",
+  "name": "internet archive",
+  "description": "access archive metadata and developer interfaces for digital collections.",
+  "categories": [
+    "books",
+    "media",
+    "data"
+  ],
+  "tags": [
+    "REST"
+  ],
+  "sourceVerifiedAt": "2026-09-26",
+  "sources": [
+    {
+      "url": "https://archive.org/developers/",
+      "label": "official documentation / product page",
+      "facts": "product purpose and features reviewed; unrecorded pricing, quotas, and permissions remain unknown."
+    }
+  ],
+  "provider": "internet archive",
+  "docsUrl": "https://archive.org/developers/",
+  "officialUrl": "https://archive.org/developers/",
+  "buildIdeas": [
+    "build a browser for archival collections and item metadata."
+  ],
+  "overview": "build a browser for archival collections and item metadata. check the linked documentation for the available datasets and usage requirements."
+},
+  {
+  "slug": "met-norway",
+  "name": "met norway",
+  "description": "access weather forecast and environmental data services.",
+  "categories": [
+    "weather",
+    "science"
+  ],
+  "tags": [
+    "REST"
+  ],
+  "sourceVerifiedAt": "2026-09-26",
+  "sources": [
+    {
+      "url": "https://api.met.no/",
+      "label": "official documentation / product page",
+      "facts": "product purpose and features reviewed; unrecorded pricing, quotas, and permissions remain unknown."
+    }
+  ],
+  "provider": "norwegian meteorological institute",
+  "docsUrl": "https://api.met.no/",
+  "officialUrl": "https://api.met.no/",
+  "buildIdeas": [
+    "build a forecast view using a documented location service."
+  ],
+  "overview": "build a forecast view using a documented location service. check the linked documentation for the available datasets and usage requirements."
+},
+  {
+  "slug": "freetogame",
+  "name": "freetogame",
+  "description": "retrieve free-to-play game metadata with genre and platform filters.",
+  "categories": [
+    "gaming"
+  ],
+  "tags": [
+    "REST"
+  ],
+  "sourceVerifiedAt": "2026-09-26",
+  "sources": [
+    {
+      "url": "https://www.freetogame.com/api-doc",
+      "label": "official documentation / product page",
+      "facts": "product purpose and features reviewed; unrecorded pricing, quotas, and permissions remain unknown."
+    }
+  ],
+  "provider": "freetogame",
+  "docsUrl": "https://www.freetogame.com/api-doc",
+  "officialUrl": "https://www.freetogame.com/api-doc",
+  "buildIdeas": [
+    "build a game finder with platform and genre filters."
+  ],
+  "overview": "build a game finder with genre and platform filters. FreeToGame requires attribution as the data source.",
+  "pricingType": "free",
+  "freeTier": true,
+  "pricingNote": "the official provider describes this API as free.",
+  "authType": "none",
+  "authNote": "the official documentation states no key or account is required."
+},
+  {
+  "slug": "fred",
+  "name": "fred",
+  "description": "retrieve economic time series, observations, and release metadata.",
+  "categories": [
+    "finance",
+    "data"
+  ],
+  "tags": [
+    "REST"
+  ],
+  "sourceVerifiedAt": "2026-09-26",
+  "sources": [
+    {
+      "url": "https://fred.stlouisfed.org/docs/api/fred/",
+      "label": "official documentation / product page",
+      "facts": "product purpose and features reviewed; unrecorded pricing, quotas, and permissions remain unknown."
+    }
+  ],
+  "provider": "federal reserve bank of st. louis",
+  "docsUrl": "https://fred.stlouisfed.org/docs/api/fred/",
+  "officialUrl": "https://fred.stlouisfed.org/docs/api/fred/",
+  "buildIdeas": [
+    "build an explorer for published economic time series."
+  ],
+  "overview": "build an explorer for published economic time series. check the linked documentation for the available datasets and usage requirements."
+},
 ];
 export const apis: Api[] = seeds.map(api);

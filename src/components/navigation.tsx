@@ -2,26 +2,11 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Search,
-  Compass,
-  Braces,
-  Bot,
-  FolderOpen,
-  Shuffle,
-  TrendingUp,
-  FlaskConical,
-  Zap,
-  Sprout,
-  UnlockKeyhole,
-  ChevronRight,
-} from "lucide-react";
+import { ThemeToggle } from "./theme-toggle";
+import { Search, ChevronRight } from "lucide-react";
+import { catalogSection, isBrowserExtension } from "@/lib/catalog";
 import { resources } from "@/data";
-import { apis } from "@/data/apis";
-import { bots } from "@/data/bots";
 import { tools } from "@/data/tools";
-import { weird } from "@/data/weird";
-import { collections } from "@/data/collections";
 import { searchMatches } from "@/lib/filtering";
 import { resourcePath } from "@/lib/links";
 
@@ -89,7 +74,7 @@ export function GlobalSearch() {
             setOpen(true);
           }}
           onFocus={() => setOpen(true)}
-          placeholder="search apis, bots, tools, weird web..."
+          placeholder="search apis, bots, extensions, tools..."
           aria-label="search all services"
           autoComplete="off"
         />
@@ -109,7 +94,7 @@ export function GlobalSearch() {
               >
                 <span>{r.name}</span>
                 <span className="muted">
-                  {r.kind === "api" ? "api" : r.kind === "bot" ? "bot" : r.kind === "tool" ? "tool" : "weird web"} ↗
+                  {r.kind === "weird" ? "weird web" : catalogSection(r)} ↗
                 </span>
               </Link>
             ))
@@ -131,11 +116,14 @@ export function GlobalSearch() {
 }
 export function TopNav() {
   const pathname = usePathname();
+  const extensionDetail = tools.some((item) => isBrowserExtension(item) && resourcePath(item) === pathname);
+  const activePath = extensionDetail || pathname === "/collections/browser-extensions" ? "/extensions" : pathname.startsWith("/weird") ? "/web" : pathname;
   return (
     <header className="topnav">
       <div className="nav-inner">
-        <Link className="brand" href="/" aria-label="capybara home">
-          <span className="brand-mark">&gt;_</span> capybara
+        <Link className="brand" href="/" aria-label="capibara home">
+          <span className="brand-animal" aria-hidden="true" />
+          <span>c<span className="brand-api">api</span>bara</span>
         </Link>
         <nav className="nav-links" aria-label="main navigation">
           {[
@@ -143,98 +131,28 @@ export function TopNav() {
             ["/apis", "apis"],
             ["/bots", "discord bots"],
             ["/tools", "developer tools"],
-            ["/weird", "weird web"],
-            ["/collections", "collections"],
-            ["/random", "random"],
+            ["/web", "web"],
+            ["/extensions", "extensions"],
+            ["/saved", "saved"],
           ].map(([href, label]) => (
             <Link
               key={href}
               href={href}
               className={
-                pathname === href ||
-                (href !== "/" && pathname.startsWith(`${href}/`))
+                activePath === href ||
+                (href !== "/" && activePath.startsWith(`${href}/`))
                   ? "active"
                   : ""
               }
-              aria-current={pathname === href ? "page" : undefined}
+              aria-current={activePath === href ? "page" : undefined}
             >
-              {label === "random" && <Shuffle size={13} />} {label}
+              {label}
             </Link>
           ))}
         </nav>
         <GlobalSearch />
+        <ThemeToggle />
       </div>
     </header>
-  );
-}
-export function Sidebar() {
-  const pathname = usePathname();
-  const links = [
-    { href: "/", label: "overview", icon: Compass, count: resources.length },
-    { href: "/apis", label: "apis", icon: Braces, count: apis.length },
-    { href: "/bots", label: "discord bots", icon: Bot, count: bots.length },
-    { href: "/tools", label: "developer tools", icon: Braces, count: tools.length },
-    { href: "/weird", label: "weird web", icon: FlaskConical, count: weird.length },
-    {
-      href: "/collections",
-      label: "collections",
-      icon: FolderOpen,
-      count: collections.length,
-    },
-  ];
-  const categories = [...new Set(apis.flatMap((a) => a.categories))].sort();
-  return (
-    <aside className="sidebar" aria-label="directory shortcuts">
-      <div className="side-section">
-        <p className="eyebrow">explore</p>
-        {links.map(({ href, label, icon: Icon, count }) => (
-          <Link
-            key={href}
-            href={href}
-            className={`side-link ${pathname === href ? "active" : ""}`}
-          >
-            <Icon size={15} />
-            {label}
-            <span className="side-count">{count}</span>
-          </Link>
-        ))}
-      </div>
-      <div className="side-section">
-        <p className="eyebrow">find your next thing</p>
-        {[
-          { label: "featured", href: "/apis?sort=trending", icon: TrendingUp },
-          { label: "actually useful", href: "/apis?sort=useful", icon: Zap },
-          { label: "weirdest", href: "/apis?sort=weird", icon: FlaskConical },
-          {
-            label: "beginner friendly",
-            href: "/apis?sort=beginner",
-            icon: Sprout,
-          },
-          { label: "no auth", href: "/apis?auth=none", icon: UnlockKeyhole },
-        ].map(({ label, href, icon: Icon }) => (
-          <Link href={href} key={label} className="side-link">
-            <Icon size={14} />
-            {label}
-          </Link>
-        ))}
-      </div>
-      <div className="side-section">
-        <p className="eyebrow">categories</p>
-        {categories.slice(0, 9).map((c) => (
-          <Link
-            key={c}
-            href={`/apis?category=${encodeURIComponent(c)}`}
-            className="side-link"
-          >
-            <span className="muted mono">#</span>
-            {c}
-            <span className="side-count">
-              {apis.filter((a) => a.categories.includes(c)).length}
-            </span>
-          </Link>
-        ))}
-      </div>
-
-    </aside>
   );
 }

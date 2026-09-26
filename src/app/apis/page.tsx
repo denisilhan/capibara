@@ -14,8 +14,8 @@ export default async function ApisPage({
         <div>
           <h1>apis.</h1>
           <p>
-            explore apis by what they do, what they cost, and how weird they
-            get.
+            find data and features for your app. compare pricing and access;
+            auth tells you whether a service needs a key or an account.
           </p>
         </div>
         <span className="eyebrow">/ apis</span>

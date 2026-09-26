@@ -2,7 +2,7 @@
 
 Reviewed 2026-09-25 against official documentation, official websites, and official repositories. Fields marked unknown are deliberately unset. A documentation review is not a live health check.
 
-This audit details the original 20 APIs and 10 bots. The added 20 APIs, 8 developer tools, and 8 weird web entries carry official source links and review notes in their respective `src/data` records.
+This audit details the original 20 APIs and 10 bots. Subsequent additions and updated facts carry source links and review dates in their respective `src/data` records. Those records are the current catalog; this document preserves the original audit.
 
 ## open-meteo (api)
 

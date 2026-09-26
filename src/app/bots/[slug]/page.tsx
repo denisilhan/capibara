@@ -1,10 +1,11 @@
+import { SaveButton } from "@/components/save-button";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { bots } from "@/data/bots";
 import { verifiedInviteUrl } from "@/lib/links";
 import { Tag, StatusIndicator } from "@/components/ui";
-import { ResourceMetrics, SourcePanel } from "@/components/details";
-import { BotActions, MetricNote } from "@/components/rows";
+import { ResourceBasics, SourcePanel, ResourceOverview } from "@/components/details";
+import { BotActions } from "@/components/rows";
 export function generateStaticParams() {
   return bots.map((b) => ({ slug: b.slug }));
 }
@@ -45,18 +46,19 @@ export default async function BotPage({
       </div>
       <div className="detail-actions">
         <BotActions bot={b} />
+        <SaveButton id={b.id} />
       </div>
-      <ResourceMetrics resource={b} />
+      <ResourceBasics resource={b} />
       <div className="detail-grid">
         <div>
           <section className="detail-section">
             <h2>overview</h2>
-            <p>{b.description}</p>
+            <ResourceOverview resource={b} />
           </section>
-          <section className="detail-section">
+          {b.pricing && <section className="detail-section">
             <h2>pricing</h2>
             <p>{b.pricingNote}</p>
-          </section>
+          </section>}
           <section className="detail-section">
             <h2>source code</h2>
             <p>
@@ -84,12 +86,12 @@ export default async function BotPage({
               <h2>bot snapshot</h2>
             </div>
             <dl className="fact-list">
-              <div>
+              {b.pricing && <div>
                 <dt>pricing</dt>
                 <dd>
                   <StatusIndicator value={b.pricing} />
                 </dd>
-              </div>
+              </div>}
               <div>
                 <dt>open source</dt>
                 <dd>
@@ -109,7 +111,6 @@ export default async function BotPage({
           <SourcePanel resource={b} />
         </aside>
       </div>
-      <MetricNote />
     </>
   );
 }

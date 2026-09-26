@@ -11,7 +11,9 @@ export const searchMatches = (item: Resource, query: string): boolean => {
     item.description,
     ...item.categories,
     ...item.tags,
-    item.kind === "api" || item.kind === "tool" ? item.provider : item.kind === "bot" ? "discord bot" : "weird web",
+    ...(item.kind === "tool" ? item.platform : []),
+    ...(item.kind === "web" ? [...(item.players ?? []), ...(item.playStyles ?? [])] : []),
+    item.kind === "api" || item.kind === "tool" ? item.provider : item.kind === "bot" ? "discord bot" : item.kind === "web" ? item.section : "weird web",
   ]
     .join(" ")
     .toLocaleLowerCase();
@@ -69,6 +71,9 @@ export interface Filters {
   auth: string;
   openSource: string;
   sort: SortType;
+  platform?: string;
+  players?: string;
+  playStyle?: string;
 }
 export function sortResources<T extends Resource>(
   items: T[],
@@ -76,9 +81,15 @@ export function sortResources<T extends Resource>(
 ): T[] {
   return [...items].sort((a, b) => {
     let result = 0;
-    if (sort === "price") {
-      const pa = a.kind === "api" ? priceValue(a) : null,
-        pb = b.kind === "api" ? priceValue(b) : null;
+    if (sort === "weirdness-desc" || sort === "weirdness-asc") {
+      const left = a.kind === "weird" ? a.weirdness?.level : undefined;
+      const right = b.kind === "weird" ? b.weirdness?.level : undefined;
+      result = left === undefined ? (right === undefined ? 0 : 1)
+        : right === undefined ? -1
+        : sort === "weirdness-desc" ? right - left : left - right;
+    } else if (sort === "price") {
+      const pa = a.kind === "api" ? priceValue(a) : pricingOf(a) === "free" ? 0 : null,
+        pb = b.kind === "api" ? priceValue(b) : pricingOf(b) === "free" ? 0 : null;
       result = pa === null ? (pb === null ? 0 : 1) : pb === null ? -1 : pa - pb;
     } else if (sort === "weird") result = ("weirdnessScore" in b ? b.weirdnessScore : 0) - ("weirdnessScore" in a ? a.weirdnessScore : 0);
     else if (sort === "useful") result = ("usefulnessScore" in b ? b.usefulnessScore : 0) - ("usefulnessScore" in a ? a.usefulnessScore : 0);
@@ -98,12 +109,15 @@ export function filterResources<T extends Resource>(
     items.filter(
       (item) =>
         searchMatches(item, f.query) &&
+        (!f.players || f.players === "all" || (item.kind === "web" && item.players?.some(value => value === f.players))) &&
+        (!f.playStyle || f.playStyle === "all" || (item.kind === "web" && item.playStyles?.some(value => value === f.playStyle))) &&
+        (!f.platform || f.platform === "all" || (item.kind === "tool" && item.platform.includes(f.platform))) &&
         (f.category === "all" || item.categories.includes(f.category)) &&
         (f.pricing === "all" || (pricingOf(item) ?? "unknown") === f.pricing) &&
         (f.auth === "all" ||
           (item.kind === "api" && (item.authType ?? "unknown") === f.auth)) &&
         (f.openSource === "all" ||
-          (item.kind === "bot" &&
+          ((item.kind === "bot" || item.kind === "tool") &&
             (f.openSource === "yes"
               ? item.isOpenSource === true
               : f.openSource === "no"
@@ -119,7 +133,7 @@ export function relatedApis(api: Api, items: Api[]): Api[] {
       (a) =>
         a.id !== api.id && a.categories.some((c) => api.categories.includes(c)),
     )
-    .sort((a, b) => ("usefulnessScore" in b ? b.usefulnessScore : 0) - ("usefulnessScore" in a ? a.usefulnessScore : 0))
+    .sort((a, b) => b.usefulnessScore - a.usefulnessScore)
     .slice(0, 3);
 }
 export function randomResource(

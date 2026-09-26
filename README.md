@@ -1,46 +1,74 @@
-# capybara
+<img src="public/capibara.svg" width="64" alt="capibara logo" />
 
-A compact directory of APIs, Discord bots, developer tools, and weird web. Browse by category and practical details, then follow official links to the source.
+# capibara
 
-The catalog is maintained in this repository. Provider facts may change, so unknown pricing, access, and limits stay unknown rather than being guessed.
+apis, bots and developer oddities. a small, independent directory for finding useful tools and interesting corners of the web.
 
-## browse
+![capibara discovery page in light mode](docs/screenshots/discover-light.png)
 
-| section | what it covers |
+## inside the directory
+
+| section | what you can find |
 | --- | --- |
-| [apis](src/data/apis.ts) | auth, pricing, free tiers, documentation, and example endpoints |
-| [discord bots](src/data/bots.ts) | purpose, pricing, source status, and reviewed invite links |
-| [developer tools](src/data/tools.ts) | CLI, desktop, and hosted tools with platform details |
-| [weird web](src/data/weird.ts) | small experiments and unusual working sites |
+| apis | authentication, known pricing, free tiers, documentation, and request examples |
+| discord bots | games, music, community tools, moderation, and reviewed invite links |
+| developer tools | tools for building, testing, debugging, and working with data |
+| extensions | browser helpers with platform and publisher information |
+| web | useful websites, weird experiments, and browser games |
 
-Search, filters, collections, and random discovery connect the four sections. Each entry has a detail page; directory counts come from the catalog data.
+Search by name, description, provider, category, or tag. Narrow games by solo/group, genre, and play style; filter extensions by browser. Collections offer starting points, and random discovery finds something unexpected.
+
+Save entries locally without an account. Light and dark themes follow you between pages. Saved entries stay in that browser and disappear if its site data is cleared.
+
+<details>
+<summary>games, dark mode, and mobile</summary>
+
+![browser games in dark mode](docs/screenshots/games-dark.png)
+
+<img src="docs/screenshots/games-mobile.png" width="330" alt="browser games on a narrow mobile viewport" />
+
+</details>
 
 ## run locally
 
-Requires Node.js 20.9+ and npm.
+Requires Node.js 20.9+ and npm. No API keys or database setup needed.
 
 ```sh
+git clone https://github.com/denisilhan/capybara.git
+cd capybara
 npm ci
 npm run dev
 ```
 
-Open [localhost:3000](http://localhost:3000). For a production build, run `npm run build` followed by `npm start`.
+Open [localhost:3000](http://localhost:3000). The product is named **capibara**; the repository keeps its original `capybara` URL.
 
-## data and trust
+For a production build:
 
-This is an editorial snapshot, not a live provider feed. Sources and review notes are recorded in [docs/SOURCES.md](docs/SOURCES.md) and alongside newer catalog entries. A review date does not guarantee current availability. Editorial scores are capybara judgments, not usage or popularity measurements. Bot invite buttons appear only for reviewed official destinations.
+```sh
+npm run build
+npm start
+```
 
-No account, database, API proxy, or tracking backend is required to browse the directory.
+## catalog and sources
 
-## repository map
+The catalog lives in [`src/data`](src/data). Each entry records sources and a review date. Unknown pricing is omitted from the interface, and unknown values are never treated as free. Direct Discord invites appear only for reviewed destinations.
 
-- `src/data/` — catalog records and collection rules
-- `src/lib/` — filtering, sorting, counts, links, and query parsing
-- `src/app/` — pages and detail routes
-- `src/components/` — directory and detail UI
-- `tests/` — catalog logic and route checks
+Weirdness is a three-level editorial assessment, not a quality or popularity score. Legacy editorial values support some sorting and collection rules; they are not provider metrics. There are no live uptime, usage, or popularity claims.
 
-## checks
+Provider details can change. Review dates describe a source review, not a live availability guarantee. The original source audit is in [`docs/SOURCES.md`](docs/SOURCES.md); current notes live alongside each record.
+
+To suggest an entry or correct a fact, [open an issue](https://github.com/denisilhan/capybara/issues) with its official URL and a short explanation.
+
+## development
+
+Next.js App Router, React, strict TypeScript, and CSS. No account system, API proxy, or tracking backend.
+
+- `src/app/` — directory, collection, search, saved, and detail routes
+- `src/components/` — shared directory and detail UI
+- `src/data/` — catalog records, discovery picks, and collection rules
+- `src/lib/` — search, filtering, sorting, counts, and verified links
+- `tests/` — catalog invariants and route integration checks
+- `public/design-lab.html` — the earlier naming and logo study
 
 ```sh
 npm run lint
@@ -48,4 +76,6 @@ npm test
 npm run build
 ```
 
-With the local server running, `npm run test:routes` checks the main and detail pages, 404s, and external links.
+With a local server running, `npm run test:routes` checks every catalog detail page, directory routes, 404s, redirects, and key rendering rules. Set `TEST_BASE_URL` to use a server other than `http://127.0.0.1:3000`.
+
+See the [release review](docs/REVIEW.md) for the latest verification scope and limits.

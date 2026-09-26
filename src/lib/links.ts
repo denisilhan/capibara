@@ -1,8 +1,8 @@
 import type { DiscordBot, Resource } from "../types/index";
 export const resourcePath = (resource: Resource) =>
-  `/${({ api: "apis", bot: "bots", tool: "tools", weird: "weird" } as const)[resource.kind]}/${resource.slug}`;
+  `/${({ api: "apis", bot: "bots", tool: "tools", weird: "weird", web: "web" } as const)[resource.kind]}/${resource.slug}`;
 // Exact provider redirects are reviewed, never synthesized from a bot name.
-const reviewedRedirects = new Set(["https://sapph.xyz/invite"]);
+const reviewedRedirects = new Set(["https://sapph.xyz/invite", "https://tickettool.xyz/invite"]);
 export function verifiedInviteUrl(bot: DiscordBot): string | null {
   if (!bot.verifiedInvite || !bot.inviteUrl || !bot.inviteSourceUrl)
     return null;

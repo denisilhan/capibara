@@ -3,11 +3,11 @@ import "./globals.css";
 import { AppShell } from "@/components/app-shell";
 export const metadata: Metadata = {
   title: {
-    default: "capybara — discover apis, bots and developer oddities",
-    template: "%s · capybara",
+    default: "capibara — discover apis, bots and developer oddities",
+    template: "%s · capibara",
   },
   description:
-    "an independent directory for apis, discord bots, developer tools, and weird web.",
+    "an independent directory for apis, discord bots, developer tools, browser extensions, useful websites, and browser games.",
 };
 export default function RootLayout({
   children,
@@ -15,7 +15,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="light" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `try{document.documentElement.dataset.theme=localStorage.getItem('capybara-theme')==='dark'?'dark':'light'}catch{}` }} />
+      </head>
       <body>
         <AppShell>{children}</AppShell>
       </body>

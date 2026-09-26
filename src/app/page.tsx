@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { apis } from "@/data/apis";
 import { bots } from "@/data/bots";
-import { tools } from "@/data/tools";
-import { weird } from "@/data/weird";
 import { collections } from "@/data/collections";
 import { resources } from "@/data";
 import { matchesCollection } from "@/lib/filtering";
@@ -14,19 +12,17 @@ export default function Home() {
     <>
       <div className="page-heading home-intro">
         <div>
-          <p className="eyebrow">/ directory</p>
           <h1>apis, bots and developer oddities.</h1>
-          <p>a small, maintained index of things worth building with.</p>
+          <p>find an API for your app, a bot for your server, or something unexpected for your browser.</p>
         </div>
       </div>
-      <div className="catalog-counts">
-        <span><strong>{apis.length}</strong> apis</span>
-        <span><strong>{bots.length}</strong> discord bots</span>
-        <span><strong>{tools.length}</strong> developer tools</span>
-        <span><strong>{weird.length}</strong> weird web</span>
-        <span><strong>{collections.length}</strong> collections</span>
-        <span><strong>{new Set(resources.flatMap((item) => item.categories)).size}</strong> categories</span>
-      </div>
+      <nav className="directory-guide" aria-label="explore the directory">
+        <Link href="/apis"><strong>apis <span>→</span></strong><p>data and features you can use in your own app.</p></Link>
+        <Link href="/bots"><strong>discord bots <span>→</span></strong><p>games, RPG, chat, and tools for your server.</p></Link>
+        <Link href="/tools"><strong>developer tools <span>→</span></strong><p>build, test, and debug with less busywork.</p></Link>
+        <Link href="/web"><strong>web <span>→</span></strong><p>useful sites, games, and unexpected corners of the internet.</p></Link>
+      </nav>
+      <p className="list-help"><Link className="text-link" href="/random">surprise me ↝</Link></p>
       <Discovery />
       <div className="home-sections">
         <section>

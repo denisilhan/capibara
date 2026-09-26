@@ -36,7 +36,9 @@ export function FilterDropdown({ label, value, options, onChange }: {
   };
 
   return (
-    <div className="filter-field" ref={root}>
+    <div className="filter-field" ref={root} onBlur={(event) => {
+      if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
+    }}>
       <span className="filter-label" id={`${listId}-label`}>{label}</span>
       <button
         ref={trigger}
