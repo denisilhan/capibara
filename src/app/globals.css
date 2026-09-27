@@ -1181,7 +1181,7 @@ body { font-size: 15px; }
 .mixed-directory .api-heading { flex-wrap: wrap; }
 
 @media (max-width: 600px) {
-  .nav-links { flex-wrap: nowrap; overflow-x: auto; width: 100%; min-width: 0; gap: 18px; }
+  .nav-links { flex-wrap: wrap; overflow: visible; width: 100%; min-width: 0; gap: 0 18px; }
   .nav-links a { flex: none; }
   .directory-guide p { display: none; }
   .directory-guide a { padding: 10px 12px; }
@@ -1193,6 +1193,10 @@ body { font-size: 15px; }
 .web-tabs a { flex: 0 0 auto; padding: 10px 13px; color: var(--secondary); border-bottom: 2px solid transparent; }
 .web-tabs a:hover { color: var(--foreground); background: var(--surface); }
 .web-tabs a[aria-current="page"] { color: var(--foreground); border-bottom-color: var(--accent); }
+@media (max-width: 600px) {
+  .web-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible; gap: 0 6px; }
+  .web-tabs a { padding: 10px; }
+}
 
 /* Mixed lists share metadata columns; API-only tables retain their own header grid. */
 @media (min-width: 761px) {

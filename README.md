@@ -40,7 +40,7 @@ Coding assistants and agent frameworks share a view, with type and platform filt
 
 ### mobile
 
-<img src="docs/screenshots/games-mobile.png" width="330" alt="browser games on a narrow mobile viewport" />
+<img src="docs/screenshots/games-mobile.png" width="330" alt="browser games filtered by genre at 390px, with all mobile navigation links visible" />
 
 ## run locally
 
