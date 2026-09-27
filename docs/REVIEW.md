@@ -1,3 +1,18 @@
+# Mobile usability review — 2026-09-27
+
+- Replaced the always-expanded mobile header with a labeled menu; search and all existing destinations remain available inside it. Theme switching stays visible.
+- Kept directory search visible and made additional filters expandable on mobile. Active choices remain applied when closed and are counted on the filter button.
+- Enlarged touch targets and metadata, constrained dropdowns to their column, and kept section choices visible in two columns.
+- At a 390 × 844 viewport, the first game row now starts around 445px instead of 790px.
+- Checked 18 route types at 320px, 390px and 768px (54 route/viewport combinations): no horizontal page overflow. Also checked the desktop navigation and visible filters at 1280px.
+- Exercised menu navigation, Escape, global search to a detail page, combined search/filtering, filter reset, theme switching, and save/remove in the browser.
+- ESLint, TypeScript, production build, 20 logic tests and 11 route tests passed.
+- README uses normal documentation capitalization and new light/dark mobile captures.
+
+Scope: Chromium viewport checks, not physical iOS/Android or comprehensive cross-browser testing.
+
+---
+
 # v2 release review — 2026-09-27
 
 Version: 0.2.0. Release checks completed locally before publication.

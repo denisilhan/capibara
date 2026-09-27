@@ -1,4 +1,10 @@
-# changelog
+# Changelog
+
+## Mobile refinement — 2026-09-27
+
+- Mobile menu and expandable filters bring directory entries closer to the top of the screen.
+- Larger touch targets, readable metadata, contained dropdowns, and clearer section navigation.
+- Updated mobile screenshots and standard capitalization in the README.
 
 ## 0.2.0 — v2 / 2026-09-27
 

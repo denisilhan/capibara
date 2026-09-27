@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./theme-toggle";
-import { Search, ChevronRight } from "lucide-react";
+import { Search, ChevronRight, Menu, X } from "lucide-react";
 import { catalogSection, isBrowserExtension } from "@/lib/catalog";
 import { resources } from "@/data";
 import { tools } from "@/data/tools";
@@ -116,16 +116,28 @@ export function GlobalSearch() {
 }
 export function TopNav() {
   const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuButton = useRef<HTMLButtonElement>(null);
   const extensionDetail = tools.some((item) => isBrowserExtension(item) && resourcePath(item) === pathname);
   const activePath = extensionDetail || pathname === "/collections/browser-extensions" ? "/extensions" : pathname.startsWith("/weird") ? "/web" : pathname;
   return (
-    <header className="topnav">
+    <header className="topnav" data-menu-open={menuOpen} onClick={(event) => {
+      if (event.target instanceof Element && event.target.closest("a")) setMenuOpen(false);
+    }} onKeyDown={(event) => {
+      if (event.key === "Escape" && menuOpen) {
+        setMenuOpen(false);
+        menuButton.current?.focus();
+      }
+    }}>
       <div className="nav-inner">
         <Link className="brand" href="/" aria-label="capibara home">
           <span className="brand-animal" aria-hidden="true" />
           <span>c<span className="brand-api">api</span>bara</span>
         </Link>
-        <nav className="nav-links" aria-label="main navigation">
+        <button ref={menuButton} className="button mobile-menu-toggle" type="button" aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen(!menuOpen)}>
+          {menuOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />} menu
+        </button>
+        <nav id="main-navigation" className="nav-links" aria-label="main navigation">
           {[
             ["/", "discover"],
             ["/apis", "apis"],

@@ -1181,8 +1181,6 @@ body { font-size: 15px; }
 .mixed-directory .api-heading { flex-wrap: wrap; }
 
 @media (max-width: 600px) {
-  .nav-links { flex-wrap: wrap; overflow: visible; width: 100%; min-width: 0; gap: 0 18px; }
-  .nav-links a { flex: none; }
   .directory-guide p { display: none; }
   .directory-guide a { padding: 10px 12px; }
   .directory-guide strong { font-size: 13px; }
@@ -1193,10 +1191,6 @@ body { font-size: 15px; }
 .web-tabs a { flex: 0 0 auto; padding: 10px 13px; color: var(--secondary); border-bottom: 2px solid transparent; }
 .web-tabs a:hover { color: var(--foreground); background: var(--surface); }
 .web-tabs a[aria-current="page"] { color: var(--foreground); border-bottom-color: var(--accent); }
-@media (max-width: 600px) {
-  .web-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible; gap: 0 6px; }
-  .web-tabs a { padding: 10px; }
-}
 
 /* Mixed lists share metadata columns; API-only tables retain their own header grid. */
 @media (min-width: 761px) {
@@ -1222,3 +1216,52 @@ body { font-size: 15px; }
   .ai-directory .filter-field { flex-basis: 110px; min-width: 100px; }
 }
 .web-tabs, .nav-links { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+
+/* Mobile navigation and filtering: keep directory content above the fold. */
+.mobile-menu-toggle, .mobile-filter-toggle { display: none; }
+@media (max-width: 760px) {
+  .nav-inner { gap: 8px; padding: 10px 16px; }
+  .brand { margin-right: auto; }
+  .mobile-menu-toggle { display: inline-flex; order: 2; }
+  .theme-toggle { order: 1; margin-left: 0; width: 44px; height: 44px; padding: 0; }
+  .theme-toggle span { display: none; }
+  .topnav .nav-links, .topnav .global-search { display: none; }
+  .topnav[data-menu-open="true"] .nav-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); order: 4; gap: 4px 12px; padding-top: 4px; }
+  .topnav[data-menu-open="true"] .global-search { display: block; order: 3; width: 100%; }
+  .nav-links a { min-height: 44px; height: auto; font-size: 14px; padding-inline: 8px; }
+  .main { padding-top: 20px; }
+  .page-heading { margin-bottom: 16px; gap: 12px; }
+  .page-heading p { font-size: 14px; line-height: 1.5; }
+  .web-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible; gap: 4px; margin-bottom: 12px; padding-bottom: 8px; }
+  .web-tabs a { display: flex; align-items: center; gap: 5px; min-height: 44px; padding: 8px; border: 1px solid transparent; border-radius: 4px; font-size: 13px; line-height: 1.35; }
+  .web-tabs a[aria-current="page"] { border-color: var(--border); background: var(--surface); color: var(--accent); }
+  .web-tabs .mono { margin-left: auto; }
+  .list-help { font-size: 12px; line-height: 1.5; }
+  .filter-panel { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; padding-bottom: 12px; }
+  .filter-search { margin: 0; padding: 7px 9px; }
+  .mobile-filter-toggle { display: inline-flex; }
+  .filter-controls { display: none; grid-column: 1 / -1; }
+  .filter-controls[data-open="true"] { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .filter-field, .ai-directory .filter-field { min-width: 0; }
+  .filter-controls > .button { grid-column: 1 / -1; justify-self: start; }
+  .filter-menu { width: 100%; max-height: 240px; }
+  .filter-option { white-space: normal; overflow-wrap: anywhere; }
+  .search-box input { font-size: 16px; }
+  .button, .filter-trigger, .filter-option { min-height: 44px; }
+  .filter-trigger { font-size: 14px; }
+  .result-line { margin: 12px 0; }
+  .api-row, .directory .api-row, .directory-row, .directory .directory-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 44px; padding: 12px; gap: 10px; }
+  .api-name { font-size: 16px; }
+  .api-main { padding: 0; }
+  .api-description { font-size: 14px; line-height: 1.5; }
+  .api-cell-label { order: -1; font-size: 11px; margin-bottom: 3px; }
+  .api-cell-value, .api-cell-value.platform-value { white-space: normal; overflow-wrap: anywhere; font-size: 12px; line-height: 1.4; }
+  .api-docs { width: 44px; height: 44px; }
+  .directory-row .api-docs { grid-row: 2; }
+  .detail-top, .detail-grid > *, .fact-list dd { min-width: 0; }
+  .detail-top h1, .source-list a, .fact-list dd { overflow-wrap: anywhere; }
+  .breadcrumb { flex-wrap: wrap; margin-bottom: 16px; }
+  .detail-actions { gap: 8px; }
+  .detail-actions .button, .detail-actions .text-link { white-space: normal; text-align: center; }
+  .footer-links a { display: inline-flex; align-items: center; min-height: 44px; }
+}

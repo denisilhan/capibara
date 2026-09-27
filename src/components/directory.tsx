@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
-import { Search } from "lucide-react";
+import { useId, useState } from "react";
+import { Search, SlidersHorizontal } from "lucide-react";
 import type { Filters } from "@/lib/filtering";
 import { filterResources, sanitizeFilters } from "@/lib/filtering";
 import { getMetrics } from "@/lib/metrics";
@@ -43,6 +43,11 @@ export function Directory({ items, kind, initial = {} }: {
     ...(kind !== "game" ? { players: "all", playStyle: "all" } : {}),
     sort: visibleSorts.some((option) => option.value === initial.sort) ? initial.sort! : defaults.sort,
   });
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const filterId = useId();
+  const activeFilterCount = Object.entries(filters).filter(([key, value]) =>
+    key !== "query" && value !== "all" && value !== "trending"
+  ).length;
   const filtered = filterResources(items, filters);
   const stats = getMetrics(filtered);
   const platforms = [...new Set(items.flatMap((item) => item.kind === "tool" ? item.platform : []))].sort();
@@ -53,6 +58,10 @@ export function Directory({ items, kind, initial = {} }: {
   const label = kind === "ai" ? "ai tools" : kind === "game" ? "games" : kind === "web" ? "websites" : kind === "extension" ? "extensions" : kind === "bot" ? "bots" : kind === "tool" ? "tools" : kind === "weird" ? "weird web" : kind === "all" ? "services" : "apis";
 
 
+  const resultLabel = filtered.length === 1
+    ? ({ ai: "ai tool", api: "api", bot: "bot", tool: "tool", weird: "site", extension: "extension", web: "website", game: "game", all: "service" } satisfies Record<Kind, string>)[kind]
+    : kind === "weird" ? "sites" : label;
+
   return (
     <div className={kind === "ai" ? "directory ai-directory" : "directory"}>
       <div className="filter-panel">
@@ -62,10 +71,13 @@ export function Directory({ items, kind, initial = {} }: {
             aria-label={`search ${label}`}
             value={filters.query}
             onChange={(event) => change("query", event.target.value)}
-            placeholder={`search ${label}, categories, tags...`}
+            placeholder={`search ${label}...`}
           />
         </div>
-        <div className="filter-controls">
+        <button type="button" className="button mobile-filter-toggle" aria-expanded={filtersOpen} aria-controls={filterId} onClick={() => setFiltersOpen(!filtersOpen)}>
+          <SlidersHorizontal size={16} aria-hidden="true" /> filters{activeFilterCount > 0 ? ` (${activeFilterCount})` : ""}
+        </button>
+        <div id={filterId} className="filter-controls" data-open={filtersOpen}>
           {kind === "ai" ? <FilterDropdown label="tool type" value={filters.toolType ?? "all"} onChange={(value) => change("toolType", value)} options={[
             { value: "all", label: "all tool types" },
             ...[...new Set(items.flatMap(item => item.kind === "tool" ? [item.toolType] : []))].sort().map(value => ({ value, label: value })),
@@ -103,7 +115,7 @@ export function Directory({ items, kind, initial = {} }: {
         </div>
       </div>
       <div className="result-line" aria-live="polite">
-        <span>{filtered.length} {kind === "weird" ? "sites" : label} found{hasAuthFilter ? ` · ${stats.noAuth} no-auth` : ""}</span>
+        <span>{filtered.length} {resultLabel} found{hasAuthFilter ? ` · ${stats.noAuth} no-auth` : ""}</span>
         <span>{alphabetical ? "a–z" : kind === "weird" ? visibleSorts.find((option) => option.value === filters.sort)?.label : filters.sort === "trending" ? (kind === "bot" ? "a–z" : "featured first") : filters.sort === "price" ? "unknown prices last" : "editorial order"}</span>
       </div>
       <div className={kind === "all" || kind === "web" ? "directory-table mixed-directory" : "directory-table"}>

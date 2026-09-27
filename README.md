@@ -2,24 +2,24 @@
 
 # capibara
 
-apis, bots and developer oddities. a small, independent directory for finding useful tools and interesting corners of the web.
+APIs, bots and developer oddities. A small, independent directory for finding useful tools and interesting corners of the web.
 
 ![capibara discovery page in light mode](docs/screenshots/discover-light.png)
 
-## inside the directory
+## Inside the directory
 
-| section | what you can find |
+| Section | What you can find |
 | --- | --- |
-| apis | authentication, known pricing, free tiers, documentation, and request examples |
-| discord bots | games, music, community tools, moderation, and reviewed invite links |
-| developer tools | tools for building, testing, debugging, and working with data |
-| ai & agents | coding assistants, agent frameworks, web builders, design, mobile apps, and automation |
-| extensions | browser helpers with platform and publisher information |
-| web | useful websites, weird experiments, and browser games |
+| APIs | Authentication, known pricing, free tiers, documentation, and request examples |
+| Discord bots | Games, music, community tools, moderation, and reviewed invite links |
+| Developer tools | Tools for building, testing, debugging, and working with data |
+| AI & agents | Coding assistants, agent frameworks, web builders, design, mobile apps, and automation |
+| Extensions | Browser helpers with platform and publisher information |
+| Web | Useful websites, weird experiments, and browser games |
 
 Search by name, description, provider, category, or tag. Narrow games by solo/group, genre, and play style; filter extensions by browser. Collections offer starting points, and random discovery finds something unexpected.
 
-## v2
+## V2
 
 200 unique entries: 60 APIs, 34 bots, 36 developer tools, 18 extensions, 29 websites and games, and 23 weird-web finds. Counts are a release snapshot, not usage statistics.
 
@@ -32,17 +32,22 @@ See the [changelog](CHANGELOG.md) for the release summary.
 
 Save entries locally without an account. Light and dark themes follow you between pages. Saved entries stay in that browser and disappear if its site data is cleared.
 
-## dark mode
+## Dark mode
 
 Coding assistants and agent frameworks share a view, with type and platform filters to separate them.
 
 ![AI coding tools in dark mode](docs/screenshots/ai-dark.png)
 
-### mobile
+### Mobile
 
-<img src="docs/screenshots/games-mobile.png" width="330" alt="browser games filtered by genre at 390px, with all mobile navigation links visible" />
+Search stays visible. Navigation and additional filters open on demand, with active filters counted on the button. These captures use a 390 × 844 browser viewport.
 
-## run locally
+<p>
+  <img src="docs/screenshots/games-mobile.png" width="280" alt="Mobile game search in light mode, showing TimeGuessr" />
+  <img src="docs/screenshots/ai-mobile-dark.png" width="280" alt="Mobile AI directory in dark mode, showing use cases and tool rows" />
+</p>
+
+## Run locally
 
 Use Node.js 22 (the CI version) and npm; the minimum Node.js version is 20.9. No API keys or database setup needed.
 
@@ -64,7 +69,7 @@ npm run build
 npm start
 ```
 
-## catalog and sources
+## Catalog and sources
 
 The catalog lives in [`src/data`](src/data). Each entry records sources and a review date. Unknown pricing is omitted from the interface, and unknown values are never treated as free. Direct Discord invites appear only for reviewed destinations.
 
@@ -74,7 +79,7 @@ Provider details can change. Review dates describe a source review, not a live a
 
 To suggest an entry or correct a fact, [open an issue](https://github.com/denisilhan/capybara/issues) with its official URL and a short explanation.
 
-## development
+## Development
 
 Next.js App Router, React, strict TypeScript, and CSS. No account system, API proxy, or tracking backend.
 
@@ -95,7 +100,7 @@ For the release checks, start the production build with `npm start`, then run `n
 
 GitHub Actions runs lint, logic tests, the production build, and rendered-route tests on pushes and pull requests.
 
-### adding a resource
+### Adding a resource
 
 1. Choose its existing catalog in `src/data/`; reuse the current entry shape and give it a unique ID and slug.
 2. Write a short original description. Link official sources and record the review date; keep unverified fields `null`.
