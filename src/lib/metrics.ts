@@ -28,8 +28,6 @@ export function medianPrice(
   const value = median(priced.map((a) => a.startingPrice!));
   return value === null ? null : { value, currency: priced[0].currency! };
 }
-export const formatNumber = (value: number) =>
-  value >= 1000 ? `${(value / 1000).toFixed(1)}k` : String(value);
 export function formatMoney(value: number, currency: string) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",

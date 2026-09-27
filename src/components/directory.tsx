@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Search } from "lucide-react";
 import type { Filters } from "@/lib/filtering";
-import { filterResources } from "@/lib/filtering";
+import { filterResources, sanitizeFilters } from "@/lib/filtering";
 import { getMetrics } from "@/lib/metrics";
 import type { Resource, SortType } from "@/types";
 import { EmptyState } from "./ui";
@@ -11,7 +11,7 @@ import { FilterDropdown } from "./filter-dropdown";
 
 const defaults: Filters = {
   query: "", category: "all", pricing: "all", auth: "all",
-  openSource: "all", platform: "all", players: "all", playStyle: "all", sort: "trending",
+  openSource: "all", platform: "all", toolType: "all", players: "all", playStyle: "all", sort: "trending",
 };
 const sorts: { value: SortType; label: string }[] = [
   { value: "trending", label: "featured" },
@@ -20,14 +20,14 @@ const sorts: { value: SortType; label: string }[] = [
   { value: "beginner", label: "beginner friendly" },
   { value: "price", label: "lowest price" },
 ];
-type Kind = "api" | "bot" | "tool" | "weird" | "extension" | "web" | "game" | "all";
+type Kind = "ai" | "api" | "bot" | "tool" | "weird" | "extension" | "web" | "game" | "all";
 
 export function Directory({ items, kind, initial = {} }: {
   items: Resource[];
   kind: Kind;
   initial?: Partial<Filters>;
 }) {
-  const alphabetical = kind === "tool" || kind === "extension" || kind === "web" || kind === "game";
+  const alphabetical = kind === "ai" || kind === "tool" || kind === "extension" || kind === "web" || kind === "game";
   const hasSourceFilter = kind === "bot" || kind === "tool" || kind === "extension";
   const hasAuthFilter = kind === "api" || kind === "all";
   const visibleSorts: { value: SortType; label: string }[] = kind === "weird"
@@ -35,7 +35,12 @@ export function Directory({ items, kind, initial = {} }: {
     : alphabetical ? [{ value: "trending", label: "name" }]
     : kind === "bot" ? sorts.filter((s) => s.value !== "beginner" && s.value !== "price").map((s) => s.value === "trending" ? { ...s, label: "name" } : s) : sorts;
   const [filters, setFilters] = useState<Filters>({
-    ...defaults, ...initial,
+    ...sanitizeFilters(items, { ...defaults, ...initial }),
+    ...(kind === "ai" ? { category: "all" } : { toolType: "all" }),
+    ...(!hasAuthFilter ? { auth: "all" } : {}),
+    ...(!hasSourceFilter ? { openSource: "all" } : {}),
+    ...(kind !== "extension" && kind !== "ai" ? { platform: "all" } : {}),
+    ...(kind !== "game" ? { players: "all", playStyle: "all" } : {}),
     sort: visibleSorts.some((option) => option.value === initial.sort) ? initial.sort! : defaults.sort,
   });
   const filtered = filterResources(items, filters);
@@ -45,11 +50,11 @@ export function Directory({ items, kind, initial = {} }: {
   const change = <K extends keyof Filters>(key: K, value: Filters[K]) =>
     setFilters((prev) => ({ ...prev, [key]: value }));
   const clear = () => setFilters({ ...defaults });
-  const label = kind === "game" ? "games" : kind === "web" ? "websites" : kind === "extension" ? "extensions" : kind === "bot" ? "bots" : kind === "tool" ? "tools" : kind === "weird" ? "weird web" : kind === "all" ? "services" : "apis";
+  const label = kind === "ai" ? "ai tools" : kind === "game" ? "games" : kind === "web" ? "websites" : kind === "extension" ? "extensions" : kind === "bot" ? "bots" : kind === "tool" ? "tools" : kind === "weird" ? "weird web" : kind === "all" ? "services" : "apis";
 
 
   return (
-    <div className="directory">
+    <div className={kind === "ai" ? "directory ai-directory" : "directory"}>
       <div className="filter-panel">
         <div className="search-box filter-search">
           <Search size={17} aria-hidden="true" />
@@ -61,19 +66,22 @@ export function Directory({ items, kind, initial = {} }: {
           />
         </div>
         <div className="filter-controls">
-          <FilterDropdown label={kind === "game" ? "genre" : "category"} value={filters.category} onChange={(value) => change("category", value)} options={[
+          {kind === "ai" ? <FilterDropdown label="tool type" value={filters.toolType ?? "all"} onChange={(value) => change("toolType", value)} options={[
+            { value: "all", label: "all tool types" },
+            ...[...new Set(items.flatMap(item => item.kind === "tool" ? [item.toolType] : []))].sort().map(value => ({ value, label: value })),
+          ]} /> : <FilterDropdown label={kind === "game" ? "genre" : "category"} value={filters.category} onChange={(value) => change("category", value)} options={[
             { value: "all", label: "all categories" },
             ...categories.map((category) => ({ value: category, label: category })),
-          ]} />
+          ]} />}
           {kind === "game" && <>
             <FilterDropdown label="players" value={filters.players ?? "all"} onChange={(value) => change("players", value)} options={["all", "solo", "group"].map(value => ({ value, label: value === "all" ? "any players" : value }))} />
             <FilterDropdown label="play style" value={filters.playStyle ?? "all"} onChange={(value) => change("playStyle", value)} options={["all", ...new Set(items.flatMap(item => item.kind === "web" ? item.playStyles ?? [] : []))].map(value => ({ value, label: value === "all" ? "any style" : value }))} />
           </>}
-          {kind === "extension" && <FilterDropdown label="browser" value={filters.platform ?? "all"} onChange={(value) => change("platform", value)} options={[
-            { value: "all", label: "all browsers" },
+          {(kind === "extension" || kind === "ai") && <FilterDropdown label={kind === "ai" ? "platform" : "browser"} value={filters.platform ?? "all"} onChange={(value) => change("platform", value)} options={[
+            { value: "all", label: kind === "ai" ? "all platforms" : "all browsers" },
             ...platforms.map((value) => ({ value, label: value })),
           ]} />}
-          {kind !== "weird" && <FilterDropdown label="pricing" value={filters.pricing} onChange={(value) => change("pricing", value)} options={
+          {kind !== "weird" && (kind !== "ai" || items.some(item => item.kind === "tool" && item.pricing !== null)) && <FilterDropdown label="pricing" value={filters.pricing} onChange={(value) => change("pricing", value)} options={
             ["all", "free", "freemium", "paid", "unknown"].map((value) => ({ value, label: value === "all" ? "all pricing" : value }))
           } />}
           {hasAuthFilter && <FilterDropdown label="authentication" value={filters.auth} onChange={(value) => change("auth", value)} options={

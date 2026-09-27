@@ -11,6 +11,7 @@ export function parseFilters(
     players: one("players") ?? "all",
     playStyle: one("playStyle") ?? "all",
     platform: one("platform") ?? "all",
+    toolType: one("toolType") ?? "all",
     category: one("category") ?? "all",
     pricing: one("pricing") ?? "all",
     auth: one("auth") ?? "all",

@@ -11,7 +11,7 @@ export const searchMatches = (item: Resource, query: string): boolean => {
     item.description,
     ...item.categories,
     ...item.tags,
-    ...(item.kind === "tool" ? item.platform : []),
+    ...(item.kind === "tool" ? [...item.platform, item.toolType] : []),
     ...(item.kind === "web" ? [...(item.players ?? []), ...(item.playStyles ?? [])] : []),
     item.kind === "api" || item.kind === "tool" ? item.provider : item.kind === "bot" ? "discord bot" : item.kind === "web" ? item.section : "weird web",
   ]
@@ -72,9 +72,26 @@ export interface Filters {
   openSource: string;
   sort: SortType;
   platform?: string;
+  toolType?: string;
   players?: string;
   playStyle?: string;
 }
+// Validate query-supplied values against the actual catalog before displaying filters.
+export function sanitizeFilters(items: Resource[], filters: Filters): Filters {
+  const valid = (value: string | undefined, allowed: string[]) => value && allowed.includes(value) ? value : "all";
+  return {
+    ...filters,
+    category: valid(filters.category, items.flatMap(item => item.categories)),
+    platform: valid(filters.platform, items.flatMap(item => item.kind === "tool" ? item.platform : [])),
+    toolType: valid(filters.toolType, items.flatMap(item => item.kind === "tool" ? [item.toolType] : [])),
+    players: valid(filters.players, ["solo", "group"]),
+    playStyle: valid(filters.playStyle, items.flatMap(item => item.kind === "web" ? item.playStyles ?? [] : [])),
+    pricing: valid(filters.pricing, ["free", "freemium", "paid", "unknown"]),
+    auth: valid(filters.auth, ["none", "api-key", "oauth", "unknown"]),
+    openSource: valid(filters.openSource, ["yes", "no", "unknown"]),
+  };
+}
+
 export function sortResources<T extends Resource>(
   items: T[],
   sort: SortType,
@@ -111,6 +128,7 @@ export function filterResources<T extends Resource>(
         searchMatches(item, f.query) &&
         (!f.players || f.players === "all" || (item.kind === "web" && item.players?.some(value => value === f.players))) &&
         (!f.playStyle || f.playStyle === "all" || (item.kind === "web" && item.playStyles?.some(value => value === f.playStyle))) &&
+        (!f.toolType || f.toolType === "all" || (item.kind === "tool" && item.toolType === f.toolType)) &&
         (!f.platform || f.platform === "all" || (item.kind === "tool" && item.platform.includes(f.platform))) &&
         (f.category === "all" || item.categories.includes(f.category)) &&
         (f.pricing === "all" || (pricingOf(item) ?? "unknown") === f.pricing) &&

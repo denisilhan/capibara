@@ -1,7 +1,12 @@
+import { sampleItems } from "../src/lib/sample";
+import { createDiscoverySelection } from "../src/data/discovery";
+import { signInLabel } from "../src/lib/access";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { apis } from "../src/data/apis";
 import { bots } from "../src/data/bots";
+import { aiSections, isAiTool } from "../src/lib/ai";
+import { parseFilters } from "../src/lib/query";
 import { tools, developerTools, extensions } from "../src/data/tools";
 import { weird } from "../src/data/weird";
 import { websites } from "../src/data/web";
@@ -14,6 +19,7 @@ import {
   priceValue,
 } from "../src/lib/metrics";
 import {
+  sanitizeFilters,
   filterResources,
   matchesCollection,
   randomResource,
@@ -24,7 +30,7 @@ import { verifiedInviteUrl } from "../src/lib/links";
 import type { Api } from "../src/types/index";
 test("seed records have unique IDs/slugs, reviewed HTTPS sources, and valid editorial scores", () => {
   assert.equal(apis.length, 60);
-  assert.equal(tools.length, 35);
+  assert.equal(tools.length, 54);
   assert.equal(weird.length, 23);
   assert.equal(bots.length, 34);
   assert.equal(new Set(resources.map((r) => r.id)).size, resources.length);
@@ -208,7 +214,7 @@ test("new catalogs participate in search, collections, and random selection", ()
 
 test("extensions and tools form disjoint catalogs with honest AI classifications", () => {
  assert.equal(extensions.length, 18);
- assert.equal(developerTools.length, 17);
+ assert.equal(developerTools.length, 36);
  assert.equal(extensions.length + developerTools.length, tools.length);
  assert.ok(extensions.every(isBrowserExtension));
  assert.ok(developerTools.every(r => !isBrowserExtension(r)));
@@ -268,4 +274,65 @@ test("mixed price sorting includes known free bots and websites before unknown p
  const unknown = { ...websites[0], id: "unknown-web", pricing: null };
  const paid = { ...apis[0], id: "paid-api", pricingType: "paid" as const, startingPrice: 4 };
  assert.deepEqual(sortResources([unknown, paid, free], "price").map(r => r.id), ["free-bot", "paid-api", "unknown-web"]);
+});
+
+
+test("AI use cases share canonical tools, have coverage, and never inflate resource counts", () => {
+  const ai = resources.filter(isAiTool);
+  assert.equal(ai.length, 19);
+  assert.ok(ai.every(item => developerTools.includes(item)));
+  assert.ok(ai.every(item => !isBrowserExtension(item)));
+  for (const section of aiSections) assert.ok(ai.filter(item => item.aiAreas?.includes(section.id)).length >= 2, section.id);
+  for (const item of ai) {
+    assert.equal(new Set(item.aiAreas).size, item.aiAreas?.length);
+    assert.ok(item.aiAreas?.every(area => aiSections.some(section => section.id === area)));
+    assert.equal(resources.filter(resource => resource.id === item.id).length, 1);
+  }
+  assert.deepEqual(ai.find(item => item.slug === "framer")?.aiAreas, ["web", "design"]);
+  assert.equal(ai.find(item => item.slug === "langgraph")?.toolType, "agent framework");
+});
+
+test("AI filters combine type, platform and search without treating missing pricing as free", () => {
+  const defaults = { query: "", category: "all", pricing: "all", auth: "all", openSource: "all", sort: "trending" as const };
+  const ai = tools.filter(isAiTool);
+  assert.deepEqual(filterResources(ai, { ...defaults, toolType: "coding agent", platform: "cli" }).map(item => item.slug), ["claude-code", "codex", "opencode"]);
+  assert.deepEqual(filterResources(ai, { ...defaults, toolType: "agent framework", query: "stateful" }).map(item => item.slug), ["langgraph"]);
+  assert.equal(filterResources(ai, { ...defaults, toolType: "app builder", platform: "cli" }).length, 0);
+  assert.ok(filterResources(ai, { ...defaults, pricing: "free" }).every(item => item.pricing === "free"));
+  assert.equal(parseFilters({ toolType: "coding agent" }).toolType, "coding agent");
+  assert.equal(parseFilters({ toolType: ["bad", "input"] }).toolType, "all");
+});
+
+
+test("homepage samples cover every section, do not repeat entries, and respond to new randomness", () => {
+ const first = createDiscoverySelection(() => 0);
+ const next = createDiscoverySelection(() => 0.99);
+ for (const section of ["api", "bot", "extension", "tool", "ai", "web", "weird"] as const) {
+   assert.equal(first[section].length, 4);
+   assert.equal(new Set(first[section].map(item => item.id)).size, 4);
+   assert.notDeepEqual(first[section].map(item => item.id), next[section].map(item => item.id));
+   assert.ok(first[section].every(item => section === "ai" ? isAiTool(item) : catalogSection(item) === section));
+ }
+ assert.equal(first.all.length, 14);
+ assert.equal(new Set(first.all.map(item => item.id)).size, 14);
+ assert.ok(first.tool.every(item => !isAiTool(item)));
+ const input = [1, 2, 3, 4];
+ assert.equal(sampleItems(input, 2, () => 0).length, 2);
+ assert.deepEqual(input, [1, 2, 3, 4]);
+ assert.deepEqual(sampleItems([], 4), []);
+ assert.deepEqual(sampleItems([1], 4), [1]);
+ assert.equal(signInLabel(null), "not verified");
+ assert.equal(signInLabel(false), "not required");
+ assert.equal(signInLabel(true), "required");
+});
+
+
+test("invalid filter queries fall back to truthful defaults without weakening valid filters", () => {
+ const f = { query: "weather", category: "missing", pricing: "banana", auth: "wrong", openSource: "typo", platform: "invalid", toolType: "made up", players: "many", playStyle: "impossible", sort: "trending" as const };
+ const clean = sanitizeFilters(resources, f);
+ for (const key of ["category", "pricing", "auth", "openSource", "platform", "toolType", "players", "playStyle"] as const) assert.equal(clean[key], "all", key);
+ assert.equal(clean.query, "weather");
+ assert.equal(sanitizeFilters(apis, { ...f, category: "weather", auth: "none" }).category, "weather");
+ assert.equal(sanitizeFilters(apis, { ...f, category: "weather", auth: "none" }).auth, "none");
+ assert.equal(f.category, "missing");
 });

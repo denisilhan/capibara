@@ -45,7 +45,7 @@ export default async function ApiPage({
           <p>by {a.provider}</p>
           <p>{a.description}</p>
           <div className="tags">
-            {[...a.categories, ...a.tags].map((t) => (
+            {[...new Set([...a.categories, ...a.tags])].map((t) => (
               <Tag key={t}>{t}</Tag>
             ))}
           </div>
@@ -149,14 +149,10 @@ export default async function ApiPage({
                   <StatusIndicator value={a.pricingType} />
                 </dd>
               </div>}
-              <div>
+              {a.startingPrice !== null && a.currency && <div>
                 <dt>paid starting price</dt>
-                <dd>
-                  {a.startingPrice !== null && a.currency
-                    ? `${formatMoney(a.startingPrice, a.currency)} / ${a.pricePeriod}`
-                    : "not listed"}
-                </dd>
-              </div>
+                <dd>{formatMoney(a.startingPrice, a.currency)}{a.pricePeriod ? ` / ${a.pricePeriod}` : ""}</dd>
+              </div>}
               <div>
                 <dt>authentication</dt>
                 <dd>

@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { connection } from "next/server";
+import { sampleItems } from "@/lib/sample";
+import { createDiscoverySelection } from "@/data/discovery";
 import { apis } from "@/data/apis";
 import { bots } from "@/data/bots";
 import { collections } from "@/data/collections";
@@ -7,7 +10,12 @@ import { matchesCollection } from "@/lib/filtering";
 import { resourcePath } from "@/lib/links";
 import { Discovery } from "@/components/discovery";
 
-export default function Home() {
+export default async function Home() {
+  await connection();
+  const discovery = createDiscoverySelection();
+  const noAuthPicks = sampleItems(apis.filter(a => a.freeTier === true && a.authType === "none"), 4);
+  const botPicks = sampleItems(bots, 4);
+  const collectionPicks = sampleItems(collections, 4);
   return (
     <>
       <div className="page-heading home-intro">
@@ -22,13 +30,12 @@ export default function Home() {
         <Link href="/tools"><strong>developer tools <span>→</span></strong><p>build, test, and debug with less busywork.</p></Link>
         <Link href="/web"><strong>web <span>→</span></strong><p>useful sites, games, and unexpected corners of the internet.</p></Link>
       </nav>
-      <p className="list-help"><Link className="text-link" href="/random">surprise me ↝</Link></p>
-      <Discovery />
+      <Discovery picks={discovery} />
       <div className="home-sections">
         <section>
           <div className="section-heading"><h2>no-auth starting points</h2><Link className="text-link" href="/collections/free-no-auth">all →</Link></div>
           <ul className="simple-list">
-            {apis.filter((a) => a.freeTier === true && a.authType === "none").slice(0, 4).map((a) => (
+            {noAuthPicks.map((a) => (
               <li key={a.id}><Link href={resourcePath(a)}>{a.name}<span>{a.categories[0]}</span></Link></li>
             ))}
           </ul>
@@ -36,7 +43,7 @@ export default function Home() {
         <section>
           <div className="section-heading"><h2>discord bots</h2><Link className="text-link" href="/bots">all →</Link></div>
           <ul className="simple-list">
-            {bots.slice(0, 4).map((b) => (
+            {botPicks.map((b) => (
               <li key={b.id}><Link href={resourcePath(b)}>{b.name}<span>{b.categories[0]}</span></Link></li>
             ))}
           </ul>
@@ -44,7 +51,7 @@ export default function Home() {
         <section>
           <div className="section-heading"><h2>collections</h2><Link className="text-link" href="/collections">all →</Link></div>
           <ul className="simple-list">
-            {collections.slice(0, 4).map((c) => (
+            {collectionPicks.map((c) => (
               <li key={c.id}><Link href={`/collections/${c.slug}`}>{c.title}<span>{resources.filter((r) => matchesCollection(r, c)).length}</span></Link></li>
             ))}
           </ul>

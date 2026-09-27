@@ -38,7 +38,7 @@ export default async function BotPage({
           <h1>{b.name}</h1>
           <p>{b.description}</p>
           <div className="tags">
-            {[...b.categories, ...b.tags].map((t) => (
+            {[...new Set([...b.categories, ...b.tags])].map((t) => (
               <Tag key={t}>{t}</Tag>
             ))}
           </div>

@@ -17,3 +17,13 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npm run build
+      - name: Check rendered routes
+        run: |
+          npm start -- --hostname 127.0.0.1 --port 3000 > "$RUNNER_TEMP/capibara-next.log" 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:3000/ > /dev/null; then break; fi
+            sleep 1
+          done
+          npm run test:routes

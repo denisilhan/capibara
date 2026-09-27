@@ -5,7 +5,7 @@ import { collections } from '../src/data/collections';
 import { resourcePath } from '../src/lib/links';
 const base = process.env.TEST_BASE_URL ?? 'http://127.0.0.1:3000';
 test('all local routes render and unknown slugs return 404',async()=>{
- const paths=['/','/apis','/bots','/tools','/extensions','/weird','/collections','/random','/saved','/web','/web?section=games','/web?section=useful','/web?section=weird','/extensions','/search?q=weather',...resources.map(resourcePath),...collections.map(c=>`/collections/${c.slug}`)];
+ const paths=['/','/ai','/ai?section=coding','/ai?section=web','/ai?section=design','/ai?section=mobile','/ai?section=automation','/apis','/bots','/tools','/extensions','/weird','/collections','/random','/saved','/web','/web?section=games','/web?section=useful','/web?section=weird','/extensions','/search?q=weather',...resources.map(resourcePath),...collections.map(c=>`/collections/${c.slug}`)];
  for(const path of paths){const response=await fetch(new URL(path,base));assert.equal(response.status,200,path);const html=await response.text();assert.ok(html.includes('capibara home'),path);assert.ok(!html.includes('Application error'),path);}
  for(const path of ['/apis/not-a-service','/bots/not-a-bot','/tools/not-a-tool','/weird/not-a-site','/web/not-a-site','/collections/not-a-collection']){const response=await fetch(new URL(path,base));assert.equal(response.status,404,path);}
 });
@@ -44,8 +44,12 @@ test('brand and weirdness indicators render in the directory and detail', async 
 
 test('balanced discovery, factual details and browser query render', async () => {
  const home = await (await fetch(base + '/')).text();
- for (const path of ['/apis/open-meteo', '/bots/sapphire', '/tools/bitwarden', '/tools/httpie', '/weird/pointer-pointer'])
-  assert.ok(home.includes('href="' + path + '"'), path);
+ assert.ok(home.includes('ai &amp; agents'));
+ assert.ok(!home.includes('new in v2'));
+ for (const kind of ['apis', 'bots', 'tools', 'weird', 'web']) assert.ok(home.includes('href="/' + kind + '/'));
+ const nextHome = await (await fetch(base + '/')).text();
+ const lists = (html: string) => html.split('class="home-sections"')[1].split('</main>')[0].match(/href="[^"]+"/g);
+ assert.notDeepEqual(lists(home), lists(nextHome), 'lower homepage recommendations refresh too');
  for (const path of ['/apis/github', '/bots/sapphire']) {
   const html = await (await fetch(base + path)).text();
   assert.ok(html.includes('resource-basics'));
@@ -101,4 +105,48 @@ test('extensions are outside web and unknown pricing is absent from visible deta
  }
  const known = await (await fetch(base + '/apis/frankfurter')).text();
  assert.ok(known.includes('<dt>pricing</dt>'));
+});
+
+
+test('AI tabs, query filters, and canonical tool details remain connected', async () => {
+ const mobile = await (await fetch(base + '/ai?section=mobile')).text();
+ assert.ok(mobile.includes('href="/tools/rork"'));
+ assert.ok(mobile.includes('href="/tools/flutterflow"'));
+ assert.ok(!mobile.includes('href="/tools/cursor"'));
+ const agents = await (await fetch(base + '/ai?section=coding&toolType=coding%20agent&platform=cli')).text();
+ assert.ok(agents.includes('href="/tools/claude-code"'));
+ assert.ok(agents.includes('href="/tools/codex"'));
+ assert.ok(!agents.includes('href="/tools/langgraph"'));
+ const detail = await (await fetch(base + '/tools/framer')).text();
+ assert.ok(detail.includes('href="/ai?section=design"'));
+ assert.ok(detail.includes('href="/ai?section=web"'));
+ const fallback = await (await fetch(base + '/ai?section=missing')).text();
+ assert.ok(fallback.includes('href="/tools/cursor"'));
+ assert.ok(fallback.includes('href="/tools/flutterflow"'));
+});
+
+
+test('website sign-in requirements use explicit labels and unknowns stay unknown', async () => {
+ const unknown = resources.find(item => item.kind === 'weird' && item.loginRequired === null)!;
+ const known = resources.find(item => item.kind === 'weird' && item.loginRequired === false)!;
+ const unknownHtml = await (await fetch(base + resourcePath(unknown))).text();
+ assert.ok(unknownHtml.includes('<dt>sign-in</dt><dd>not verified</dd>'));
+ assert.ok(unknownHtml.includes('whether this site requires an account'));
+ const knownHtml = await (await fetch(base + resourcePath(known))).text();
+ assert.ok(knownHtml.includes('<dt>sign-in</dt><dd>not required</dd>'));
+ const rows = await (await fetch(base + '/web?section=weird')).text();
+ assert.ok(rows.includes('>sign-in</span>'));
+ assert.ok(!rows.includes('>login</span>'));
+});
+
+
+test('invalid filter URLs do not silently show empty results and tool arrows use official sites', async () => {
+ const html = await (await fetch(base + '/ai?toolType=typo&platform=missing')).text();
+ assert.ok(html.includes('href="/tools/cursor"'));
+ assert.ok(html.includes('href="https://openai.com/codex/"'));
+ const api = await (await fetch(base + '/apis/rest-countries')).text();
+ assert.equal((api.match(/class="tag">geography</g) ?? []).length, 1);
+ const unknown = resources.find(item => item.kind === 'api' && item.startingPrice === null)!;
+ const detail = await (await fetch(base + resourcePath(unknown))).text();
+ assert.ok(!detail.includes('<dt>paid starting price</dt>'));
 });

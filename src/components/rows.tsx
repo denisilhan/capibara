@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import type { Api, DiscordBot, DeveloperTool, WebSite, WeirdWeb, Resource } from "@/types";
+import { signInLabel } from "@/lib/access";
 import { isBrowserExtension } from "@/lib/catalog";
 import { resourcePath, verifiedInviteUrl } from "@/lib/links";
 import { WeirdnessMeter } from "./weirdness-meter";
@@ -81,7 +82,7 @@ export function BotRow({ bot, showKind = false }: { bot: DiscordBot; showKind?: 
 
 export function CatalogRow({ item, showKind = false }: { item: DeveloperTool | WeirdWeb | WebSite; showKind?: boolean }) {
   const isGame = item.kind === "web" && item.section === "games";
-  const destination = item.kind === "tool" ? (item.docsUrl ?? item.officialUrl) : item.officialUrl;
+  const destination = item.officialUrl;
   return (
     <li className="resource-row directory-row">
       <Link className="api-main" href={resourcePath(item)}>
@@ -101,8 +102,8 @@ export function CatalogRow({ item, showKind = false }: { item: DeveloperTool | W
         <span className="api-cell-label">{isGame ? "players" : isBrowserExtension(item) ? "publisher" : item.kind === "tool" ? "type" : "pricing"}</span></>}
       </div>
       <div className="api-cell">
-        <span className="api-cell-value platform-value">{isGame ? item.playStyles?.join(" / ") ?? "not listed" : item.kind === "tool" ? item.platform.join(", ") : item.loginRequired === null ? "unknown" : item.loginRequired ? "yes" : "no"}</span>
-        <span className="api-cell-label">{isGame ? "play style" : item.kind === "tool" ? "platform" : "login"}</span>
+        <span className="api-cell-value platform-value">{isGame ? item.playStyles?.join(" / ") ?? "not listed" : item.kind === "tool" ? item.platform.join(", ") : signInLabel(item.loginRequired)}</span>
+        <span className="api-cell-label">{isGame ? "play style" : item.kind === "tool" ? "platform" : "sign-in"}</span>
       </div>
       <a className="api-docs" href={destination} target="_blank" rel="noopener noreferrer" aria-label={`open ${item.name} official site in a new tab`}>↗</a>
     </li>

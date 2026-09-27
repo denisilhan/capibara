@@ -1,6 +1,8 @@
 import { SaveButton } from "@/components/save-button";
 import Link from "next/link";
 import type { DeveloperTool, WebSite, WeirdWeb } from "@/types";
+import { signInLabel } from "@/lib/access";
+import { aiSections } from "@/lib/ai";
 import { isBrowserExtension } from "@/lib/catalog";
 import { resourcePath } from "@/lib/links";
 import { ExternalLink, Tag } from "./ui";
@@ -21,7 +23,7 @@ export function CatalogDetail({ item }: { item: DeveloperTool | WeirdWeb | WebSi
           <p className="eyebrow">/ {isExtension ? "browser extension" : isTool ? "developer tool" : item.kind === "web" ? item.section : "weird web"}</p>
           <h1>{item.name}</h1>
           <p>{item.description}</p>
-          <div className="tags">{[...item.categories, ...item.tags].map((tag) => <Tag key={tag}>{tag}</Tag>)}</div>
+          <div className="tags">{[...new Set([...item.categories, ...item.tags])].map((tag) => <Tag key={tag}>{tag}</Tag>)}</div>
         </div>
       </div>
       <div className="detail-actions">
@@ -34,12 +36,14 @@ export function CatalogDetail({ item }: { item: DeveloperTool | WeirdWeb | WebSi
         <section className="detail-section">
           <h2>overview</h2><ResourceOverview resource={item} />
           {item.kind === "weird" && <div className="weirdness-detail"><WeirdnessMeter rating={item.weirdness} /><p className="note">{item.weirdness?.reason} capibara editorial assessment; more filled segments mean more unusual, not better quality.</p></div>}
+          {isTool && item.aiAreas?.length ? <p className="list-help">explore in ai: {aiSections.filter(section => item.aiAreas?.includes(section.id)).map((section, index) => <span key={section.id}>{index > 0 && " · "}<Link className="text-link" href={`/ai?section=${section.id}`}>{section.label}</Link></span>)}</p> : null}
           <dl className="fact-list catalog-facts">
             {item.kind === "web" && item.section === "games" && <><div><dt>players</dt><dd>{item.players?.join(" / ") ?? "not listed"}</dd></div><div><dt>play style</dt><dd>{item.playStyles?.join(" / ") ?? "not listed"}</dd></div></>}
             {isTool && <><div><dt>provider</dt><dd>{item.provider}</dd></div><div><dt>type</dt><dd>{item.toolType}</dd></div><div><dt>platform</dt><dd>{item.platform.join(", ")}</dd></div><div><dt>open source</dt><dd>{item.isOpenSource === null ? "unknown" : item.isOpenSource ? "yes" : "no"}</dd></div></>}
-            {!isTool && <div><dt>login required</dt><dd>{item.loginRequired === null ? "unknown" : item.loginRequired ? "yes" : "no"}</dd></div>}
+            {!isTool && <div><dt>sign-in</dt><dd>{signInLabel(item.loginRequired)}</dd></div>}
             {item.pricing && <div><dt>pricing</dt><dd>{item.pricing}</dd></div>}
           </dl>
+          {!isTool && item.loginRequired === null && <p className="note">we haven’t verified whether this site requires an account to use it.</p>}
         </section>
         <SourcePanel resource={item} />
       </div>

@@ -18,6 +18,614 @@ function tool(seed: Seed): DeveloperTool {
   };
 }
 export const tools: DeveloperTool[] = [
+  tool({
+    "slug": "opencode",
+    "name": "opencode",
+    "provider": "anomaly",
+    "description": "an open-source coding agent for working on projects from a terminal, IDE, or desktop app.",
+    "overview": "connect a supported model provider, open a project, and work through a specific code change. review the diff and run your own checks; model access and its cost depend on the provider you choose.",
+    "categories": [
+      "ai coding"
+    ],
+    "tags": [
+      "ai",
+      "terminal",
+      "open source"
+    ],
+    "aiAreas": [
+      "coding"
+    ],
+    "toolType": "coding agent",
+    "platform": [
+      "cli",
+      "ide",
+      "desktop"
+    ],
+    "officialUrl": "https://opencode.ai/",
+    "githubUrl": "https://github.com/anomalyco/opencode",
+    "isOpenSource": true,
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [
+      {
+        "url": "https://opencode.ai/",
+        "label": "official product page",
+        "facts": "coding-agent purpose, terminal / IDE / desktop interfaces, model-provider support, and open-source status."
+      }
+    ]
+  }),
+  tool({
+    "slug": "penpot",
+    "name": "penpot",
+    "provider": "kaleidos",
+    "description": "an open-source design workspace for interfaces, prototypes, and design systems, with AI integrations.",
+    "overview": "design screens and reusable components with your team, then inspect the layout for implementation. AI workflows connect external agents to the design workspace; the main tool is still a visual design editor.",
+    "categories": [
+      "design"
+    ],
+    "tags": [
+      "ai",
+      "prototyping",
+      "collaboration",
+      "open source"
+    ],
+    "aiAreas": [
+      "design"
+    ],
+    "toolType": "design tool",
+    "platform": [
+      "web"
+    ],
+    "officialUrl": "https://penpot.app/",
+    "isOpenSource": true,
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [
+      {
+        "url": "https://penpot.app/",
+        "label": "official product page",
+        "facts": "open-source design platform, interface design, prototypes, collaboration, and browser workspace."
+      },
+      {
+        "url": "https://penpot.app/ai/ai-workflows",
+        "label": "official AI workflows",
+        "facts": "AI integrations for code-to-design and design-to-code workflows; no claim that it is a standalone coding agent."
+      }
+    ]
+  }),
+  tool({
+    "slug": "replit-agent",
+    "name": "replit agent",
+    "provider": "replit",
+    "description": "build and refine web applications through chat inside an online development workspace.",
+    "overview": "describe a small app, inspect its preview, and refine the code and behavior in the same workspace. review connected services and deployment settings before putting real data into a project.",
+    "categories": [
+      "web development"
+    ],
+    "tags": [
+      "ai",
+      "frontend",
+      "prototyping"
+    ],
+    "aiAreas": [
+      "web"
+    ],
+    "toolType": "app builder",
+    "platform": [
+      "web"
+    ],
+    "officialUrl": "https://replit.com/products/agent",
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [
+      {
+        "url": "https://replit.com/products/agent",
+        "label": "official product page",
+        "facts": "chat-based app and website development, refinement, and service integrations. commercial terms are not inferred."
+      }
+    ]
+  }),
+  tool({
+    "slug": "cursor",
+    "name": "cursor",
+    "provider": "cursor",
+    "description": "a code editor with AI assistance for navigating and changing an existing project.",
+    "overview": "open a repository and work through a specific change with the editor and agent. review the diff and run your project checks before keeping the result.",
+    "aiAreas": [
+      "coding"
+    ],
+    "categories": [
+      "ai coding"
+    ],
+    "tags": [
+      "ai",
+      "editor",
+      "codebase"
+    ],
+    "toolType": "code editor",
+    "platform": [
+      "desktop"
+    ],
+    "officialUrl": "https://cursor.com/",
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [
+      {
+        "url": "https://cursor.com/",
+        "label": "official product page",
+        "facts": "product purpose and listed working environments; use-case grouping is capibara editorial metadata. commercial terms are not inferred."
+      }
+    ]
+  }),
+  tool({
+    "slug": "claude-code",
+    "name": "claude code",
+    "provider": "anthropic",
+    "description": "a coding agent that works with project files and command-line tools in your terminal.",
+    "overview": "give it a bounded task in an existing project, inspect its proposed changes, and verify the result with your own tests. useful when your workflow already revolves around a terminal.",
+    "aiAreas": [
+      "coding"
+    ],
+    "categories": [
+      "ai coding"
+    ],
+    "tags": [
+      "ai",
+      "terminal",
+      "codebase"
+    ],
+    "toolType": "coding agent",
+    "platform": [
+      "cli"
+    ],
+    "officialUrl": "https://claude.com/product/claude-code",
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [
+      {
+        "url": "https://claude.com/product/claude-code",
+        "label": "official product page",
+        "facts": "product purpose and listed working environments; use-case grouping is capibara editorial metadata. commercial terms are not inferred."
+      }
+    ]
+  }),
+  tool({
+    "slug": "codex",
+    "name": "codex",
+    "provider": "openai",
+    "description": "a coding agent for writing, reviewing, and debugging changes in a software project.",
+    "overview": "start with a concrete task and the relevant repository context. inspect the changed files and test the behavior before integrating the work.",
+    "aiAreas": [
+      "coding"
+    ],
+    "categories": [
+      "ai coding"
+    ],
+    "tags": [
+      "ai",
+      "terminal",
+      "code review"
+    ],
+    "toolType": "coding agent",
+    "platform": [
+      "cli",
+      "web",
+      "ide"
+    ],
+    "officialUrl": "https://openai.com/codex/",
+    "docsUrl": "https://developers.openai.com/api/docs/guides/code-generation",
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [
+      {
+        "url": "https://developers.openai.com/api/docs/guides/code-generation",
+        "label": "official product documentation",
+        "facts": "product purpose and listed working environments; use-case grouping is capibara editorial metadata. commercial terms are not inferred."
+      }
+    ]
+  }),
+  tool({
+    "slug": "langgraph",
+    "name": "langgraph",
+    "provider": "langchain",
+    "description": "a framework for building stateful agents with explicit steps, persistence, and human review.",
+    "overview": "use this when you need to implement how an agent runs: its state, transitions, and checkpoints. it is a programming framework, so expect to write and maintain application code.",
+    "aiAreas": [
+      "coding"
+    ],
+    "categories": [
+      "agent frameworks"
+    ],
+    "tags": [
+      "ai",
+      "orchestration",
+      "state"
+    ],
+    "toolType": "agent framework",
+    "platform": [
+      "sdk"
+    ],
+    "officialUrl": "https://docs.langchain.com/oss/python/langgraph/overview",
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [
+      {
+        "url": "https://docs.langchain.com/oss/python/langgraph/overview",
+        "label": "official product page",
+        "facts": "product purpose and listed working environments; use-case grouping is capibara editorial metadata. commercial terms are not inferred."
+      }
+    ]
+  }),
+  tool({
+    "slug": "crewai",
+    "name": "crewai",
+    "provider": "crewai",
+    "description": "a framework for coordinating agents, their tasks, and longer-running flows.",
+    "overview": "define the roles and tools in a small agent workflow, then inspect how tasks move between them. suitable for developers implementing an agent system rather than editing a codebase with an assistant.",
+    "aiAreas": [
+      "coding"
+    ],
+    "categories": [
+      "agent frameworks"
+    ],
+    "tags": [
+      "ai",
+      "orchestration",
+      "multi-agent"
+    ],
+    "toolType": "agent framework",
+    "platform": [
+      "sdk",
+      "cli"
+    ],
+    "officialUrl": "https://docs.crewai.com/",
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [
+      {
+        "url": "https://docs.crewai.com/",
+        "label": "official product page",
+        "facts": "product purpose and listed working environments; use-case grouping is capibara editorial metadata. commercial terms are not inferred."
+      }
+    ]
+  }),
+  tool({
+    "slug": "v0",
+    "name": "v0",
+    "provider": "vercel",
+    "description": "creates web interfaces and applications from prompts, with code you can refine.",
+    "overview": "describe a screen or app flow, inspect the generated interface, and iterate on the details. check accessibility, data handling, and responsive behavior before shipping.",
+    "aiAreas": [
+      "web"
+    ],
+    "categories": [
+      "web development"
+    ],
+    "tags": [
+      "ai",
+      "frontend",
+      "prototyping"
+    ],
+    "toolType": "app builder",
+    "platform": [
+      "web"
+    ],
+    "officialUrl": "https://v0.app/",
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [
+      {
+        "url": "https://v0.app/",
+        "label": "official product page",
+        "facts": "product purpose and listed working environments; use-case grouping is capibara editorial metadata. commercial terms are not inferred."
+      }
+    ]
+  }),
+  tool({
+    "slug": "lovable",
+    "name": "lovable",
+    "provider": "lovable",
+    "description": "builds websites and web applications through a conversational interface.",
+    "overview": "start with one user flow and explain what should happen at each step. use the preview to test the result before expanding the app or connecting real data.",
+    "aiAreas": [
+      "web"
+    ],
+    "categories": [
+      "web development"
+    ],
+    "tags": [
+      "ai",
+      "frontend",
+      "prototyping"
+    ],
+    "toolType": "app builder",
+    "platform": [
+      "web"
+    ],
+    "officialUrl": "https://lovable.dev/",
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [
+      {
+        "url": "https://lovable.dev/",
+        "label": "official product page",
+        "facts": "product purpose and listed working environments; use-case grouping is capibara editorial metadata. commercial terms are not inferred."
+      }
+    ]
+  }),
+  tool({
+    "slug": "bolt",
+    "name": "bolt",
+    "provider": "stackblitz",
+    "description": "a browser-based builder for creating and iterating on websites and applications with AI.",
+    "overview": "describe a small working version of your idea, then use the preview and project code to refine it. verify integrations and deployment settings before sharing a finished app.",
+    "aiAreas": [
+      "web"
+    ],
+    "categories": [
+      "web development"
+    ],
+    "tags": [
+      "ai",
+      "frontend",
+      "prototyping"
+    ],
+    "toolType": "app builder",
+    "platform": [
+      "web"
+    ],
+    "officialUrl": "https://bolt.new/",
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [
+      {
+        "url": "https://bolt.new/",
+        "label": "official product page",
+        "facts": "product purpose and listed working environments; use-case grouping is capibara editorial metadata. commercial terms are not inferred."
+      }
+    ]
+  }),
+  tool({
+    "slug": "figma",
+    "name": "figma",
+    "provider": "figma",
+    "description": "a collaborative design workspace with AI tools for exploring interfaces and interactive prototypes.",
+    "overview": "use it to work through screen layout and interaction with teammates. AI can help produce a starting point; keep refining the design and test whether the flow makes sense.",
+    "aiAreas": [
+      "design"
+    ],
+    "categories": [
+      "design"
+    ],
+    "tags": [
+      "ai",
+      "collaboration",
+      "prototyping"
+    ],
+    "toolType": "design tool",
+    "platform": [
+      "web"
+    ],
+    "officialUrl": "https://www.figma.com/ai/",
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [
+      {
+        "url": "https://www.figma.com/ai/",
+        "label": "official product page",
+        "facts": "product purpose and listed working environments; use-case grouping is capibara editorial metadata. commercial terms are not inferred."
+      }
+    ]
+  }),
+  tool({
+    "slug": "framer",
+    "name": "framer",
+    "provider": "framer",
+    "description": "a visual website builder whose AI tools create editable pages, sections, and content.",
+    "overview": "describe the site or page you need, then refine the result on the canvas. useful for a website you want to design visually and check at different screen sizes.",
+    "aiAreas": [
+      "web",
+      "design"
+    ],
+    "categories": [
+      "web development",
+      "design"
+    ],
+    "tags": [
+      "ai",
+      "visual editor",
+      "websites"
+    ],
+    "toolType": "website builder",
+    "platform": [
+      "web"
+    ],
+    "officialUrl": "https://www.framer.com/ai/",
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [
+      {
+        "url": "https://www.framer.com/ai/",
+        "label": "official product page",
+        "facts": "product purpose and listed working environments; use-case grouping is capibara editorial metadata. commercial terms are not inferred."
+      }
+    ]
+  }),
+  tool({
+    "slug": "uizard",
+    "name": "uizard",
+    "provider": "uizard",
+    "description": "turns prompts and visual references into editable interface designs and prototypes.",
+    "overview": "sketch the idea for a screen, then adjust the generated layout and connect the flow. use the prototype to discuss an interaction before implementing the app.",
+    "aiAreas": [
+      "design"
+    ],
+    "categories": [
+      "design"
+    ],
+    "tags": [
+      "ai",
+      "wireframes",
+      "prototyping"
+    ],
+    "toolType": "design tool",
+    "platform": [
+      "web"
+    ],
+    "officialUrl": "https://uizard.io/",
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [
+      {
+        "url": "https://uizard.io/",
+        "label": "official product page",
+        "facts": "product purpose and listed working environments; use-case grouping is capibara editorial metadata. commercial terms are not inferred."
+      }
+    ]
+  }),
+  tool({
+    "slug": "flutterflow",
+    "name": "flutterflow",
+    "provider": "flutterflow",
+    "description": "a visual app builder with AI assistance for generating app UI and development work.",
+    "overview": "start with a screen and refine its layout, navigation, and data in the visual builder. check the target-platform and export requirements before planning your release.",
+    "aiAreas": [
+      "mobile"
+    ],
+    "categories": [
+      "mobile development"
+    ],
+    "tags": [
+      "ai",
+      "flutter",
+      "visual editor"
+    ],
+    "toolType": "app builder",
+    "platform": [
+      "web"
+    ],
+    "officialUrl": "https://flutterflow.io/ai",
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [
+      {
+        "url": "https://flutterflow.io/ai",
+        "label": "official product page",
+        "facts": "product purpose and listed working environments; use-case grouping is capibara editorial metadata. commercial terms are not inferred."
+      }
+    ]
+  }),
+  tool({
+    "slug": "rork",
+    "name": "rork",
+    "provider": "rork",
+    "description": "creates mobile and web apps through a conversational AI builder.",
+    "overview": "describe a small app and test its main interaction before adding more screens. choose the appropriate platform workflow and check publishing requirements on the official site.",
+    "aiAreas": [
+      "mobile",
+      "web"
+    ],
+    "categories": [
+      "mobile development",
+      "web development"
+    ],
+    "tags": [
+      "ai",
+      "mobile",
+      "prototyping"
+    ],
+    "toolType": "app builder",
+    "platform": [
+      "web"
+    ],
+    "officialUrl": "https://rork.com/",
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [
+      {
+        "url": "https://rork.com/",
+        "label": "official product page",
+        "facts": "product purpose and listed working environments; use-case grouping is capibara editorial metadata. commercial terms are not inferred."
+      }
+    ]
+  }),
+  tool({
+    "slug": "n8n",
+    "name": "n8n",
+    "provider": "n8n",
+    "description": "connects AI steps, app integrations, and custom logic in visual automation workflows.",
+    "overview": "start with one trigger, one useful action, and sample data. inspect each step before connecting real accounts or enabling a workflow that makes changes.",
+    "aiAreas": [
+      "automation"
+    ],
+    "categories": [
+      "automation"
+    ],
+    "tags": [
+      "ai",
+      "workflows",
+      "integrations"
+    ],
+    "toolType": "workflow builder",
+    "platform": [
+      "web"
+    ],
+    "officialUrl": "https://n8n.io/ai/",
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [
+      {
+        "url": "https://n8n.io/ai/",
+        "label": "official product page",
+        "facts": "product purpose and listed working environments; use-case grouping is capibara editorial metadata. commercial terms are not inferred."
+      }
+    ]
+  }),
+  tool({
+    "slug": "make",
+    "name": "make",
+    "provider": "make",
+    "description": "a visual automation platform for connecting apps and adding AI agents to workflows.",
+    "overview": "map the task into a few steps, connect the services it needs, and inspect a test run. use clear boundaries for what an agent can decide and which actions it can take.",
+    "aiAreas": [
+      "automation"
+    ],
+    "categories": [
+      "automation"
+    ],
+    "tags": [
+      "ai",
+      "workflows",
+      "integrations"
+    ],
+    "toolType": "workflow builder",
+    "platform": [
+      "web"
+    ],
+    "officialUrl": "https://www.make.com/en/ai-agents",
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [
+      {
+        "url": "https://www.make.com/en/ai-agents",
+        "label": "official product page",
+        "facts": "product purpose and listed working environments; use-case grouping is capibara editorial metadata. commercial terms are not inferred."
+      }
+    ]
+  }),
+  tool({
+    "slug": "dify",
+    "name": "dify",
+    "provider": "dify",
+    "description": "builds AI applications with visual workflows, connected knowledge, and agent steps.",
+    "overview": "connect a model and a small set of data or tools, then inspect how the workflow handles a real question. choose cloud or self-hosted deployment after checking the relevant documentation and license.",
+    "aiAreas": [
+      "automation"
+    ],
+    "categories": [
+      "automation"
+    ],
+    "tags": [
+      "ai",
+      "workflows",
+      "knowledge"
+    ],
+    "toolType": "workflow builder",
+    "platform": [
+      "web"
+    ],
+    "officialUrl": "https://docs.dify.ai/en/home",
+    "sourceVerifiedAt": "2026-09-27",
+    "sources": [
+      {
+        "url": "https://docs.dify.ai/en/home",
+        "label": "official product page",
+        "facts": "product purpose and listed working environments; use-case grouping is capibara editorial metadata. commercial terms are not inferred."
+      }
+    ]
+  }),
   tool({ slug: "postman", overview: "keep related API requests together so you can rerun them while building or debugging an integration. begin with a single request before creating a collection.", name: "postman", provider: "postman", description: "an API workspace for sending requests, organizing collections, and testing endpoints with teammates.", categories: ["api testing"], tags: ["requests", "collections"], toolType: "api client", platform: ["web", "desktop"], officialUrl: "https://www.postman.com/", docsUrl: "https://learning.postman.com/docs/" }),
   tool({ slug: "bruno", overview: "use this to keep API requests alongside your project and review changes with your team. the official guide explains the collection format and setup.", name: "bruno", provider: "bruno", description: "a desktop API client that keeps request collections in files suitable for version control.", categories: ["api testing"], tags: ["requests", "git"], toolType: "api client", platform: ["desktop", "cli"], officialUrl: "https://www.usebruno.com/", docsUrl: "https://docs.usebruno.com/", githubUrl: "https://github.com/usebruno/bruno", isOpenSource: true }),
   tool({ slug: "hoppscotch", overview: "try an HTTP request in the browser, inspect the response, then adjust the method, headers, or body while debugging.", name: "hoppscotch", provider: "hoppscotch", description: "a web-first API development workspace for composing requests and sharing collections.", categories: ["api testing"], tags: ["requests", "web"], toolType: "api client", platform: ["web", "desktop", "cli"], officialUrl: "https://hoppscotch.io/", docsUrl: "https://docs.hoppscotch.io/", githubUrl: "https://github.com/hoppscotch/hoppscotch", isOpenSource: true }),

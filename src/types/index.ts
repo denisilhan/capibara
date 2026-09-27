@@ -55,7 +55,11 @@ export interface DiscordBot extends ResourceBase {
   inviteSourceUrl: string | null;
   isOpenSource: boolean | null;
 }
+export type AiArea = "coding" | "web" | "design" | "mobile" | "automation";
+
 export interface DeveloperTool extends CatalogBase {
+  /** Editorial use cases; one tool can appear in multiple AI sections. */
+  aiAreas?: AiArea[];
   kind: "tool";
   provider: string;
   toolType: string;

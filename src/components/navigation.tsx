@@ -57,8 +57,8 @@ export function GlobalSearch() {
             document.activeElement as HTMLAnchorElement,
           );
           links[
-            (index + (e.key === "ArrowDown" ? 1 : -1) + links.length) %
-              links.length
+            index < 0 ? (e.key === "ArrowDown" ? 0 : links.length - 1)
+              : (index + (e.key === "ArrowDown" ? 1 : -1) + links.length) % links.length
           ].focus();
         }
       }}
@@ -131,6 +131,7 @@ export function TopNav() {
             ["/apis", "apis"],
             ["/bots", "discord bots"],
             ["/tools", "developer tools"],
+            ["/ai", "ai"],
             ["/web", "web"],
             ["/extensions", "extensions"],
             ["/saved", "saved"],

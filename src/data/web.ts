@@ -3,6 +3,40 @@ import type { WebSite } from "../types/index";
 export const websites: WebSite[] = [
 {
   "kind": "web",
+  "id": "web-board-game-arena",
+  "slug": "board-game-arena",
+  "name": "board game arena",
+  "description": "play board games with friends or other players in real-time and turn-based browser matches.",
+  "overview": "choose a board game and join or create a table. real-time games suit a shared session, while turn-based tables let players take their turns at different times. check the game page for its access requirements.",
+  "section": "games",
+  "categories": [
+    "board games"
+  ],
+  "tags": [
+    "multiplayer",
+    "turn-based"
+  ],
+  "officialUrl": "https://en.boardgamearena.com/",
+  "pricing": null,
+  "loginRequired": null,
+  "players": [
+    "group"
+  ],
+  "playStyles": [
+    "competitive",
+    "casual"
+  ],
+  "sourceVerifiedAt": "2026-09-27",
+  "sources": [
+    {
+      "url": "https://en.boardgamearena.com/",
+      "label": "official website",
+      "facts": "browser-based board games, multiplayer tables, and real-time / turn-based play. full pricing and account requirements remain unrecorded."
+    }
+  ]
+},
+{
+  "kind": "web",
   "id": "web-jklm",
   "slug": "jklm",
   "name": "jklm.fun",

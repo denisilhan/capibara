@@ -15,6 +15,7 @@ export function FilterDropdown({ label, value, options, onChange }: {
   const root = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
   const listId = useId();
+  const typeahead = useRef({ text: "", at: 0 });
   const selected = Math.max(0, options.findIndex((option) => option.value === value));
 
   useEffect(() => {
@@ -74,6 +75,18 @@ export function FilterDropdown({ label, value, options, onChange }: {
           else if (event.key === "End") { event.preventDefault(); focusOption(options.length - 1); }
           else if (event.key === "Escape") { event.preventDefault(); setOpen(false); trigger.current?.focus(); }
           else if (event.key === "Tab") setOpen(false);
+          else if (event.key.length === 1 && event.key !== " " && !event.ctrlKey && !event.metaKey && !event.altKey) {
+            event.preventDefault();
+            const now = Date.now();
+            const text = (now - typeahead.current.at < 700 ? typeahead.current.text : "") + event.key.toLowerCase();
+            typeahead.current = { text, at: now };
+            const prefix = [...text].every(char => char === text[0]) ? text[0] : text;
+            const start = prefix.length === 1 ? current + 1 : Math.max(current, 0);
+            for (let offset = 0; offset < options.length; offset++) {
+              const index = (start + offset) % options.length;
+              if (options[index].label.toLowerCase().startsWith(prefix)) { focusOption(index); break; }
+            }
+          }
         }}
       >
         {options.map((option) => <button
